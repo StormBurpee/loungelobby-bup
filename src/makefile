@@ -13,3 +13,8 @@ mcss:
 
 mphp:
 	cp *.php public/
+
+build: all
+	git add *
+	git commit -m "Pushing v4.0.0"
+	git push
