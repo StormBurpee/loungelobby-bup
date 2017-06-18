@@ -1,5 +1,7 @@
 FILE=version
-VERSION=`cat $(FILE)`
+MAJOR=`cat $(FILE) | cut -f1 -d.`
+MINOR=`cat $(FILE) | cut -f2 -d.`
+RELEASE=`cat $(FILE) | cut -f3 -d.`
 
 all: clean mvendor mcss mphp
 
@@ -19,5 +21,12 @@ mphp:
 
 build: all
 	git add *
-	git commit -m "Pushing v$(VERSION)"
+	git commit -m "Pushing v$(MAJOR).$(MINOR).$(RELEASE)"
 	git push
+
+major:
+
+
+minor:
+
+release:
