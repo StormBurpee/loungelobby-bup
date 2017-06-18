@@ -30,7 +30,7 @@
   $app->get('/trending/{limit}', function (Request $request, Response $response) {
     $limit = $request->getAttribute('name');
 
-    $shows = $tmdbCall("/tv/on_the_air");
+    $shows = tmdbCall("/tv/on_the_air");
     $trendinglist;
     $i = 0;
     foreach($shows->results as $show) {
