@@ -3,24 +3,27 @@ MAJOR=`cat $(FILE) | cut -f1 -d.`
 MINOR=`cat $(FILE) | cut -f2 -d.`
 RELEASE=`cat $(FILE) | cut -f3 -d.`
 
-all: clean mvendor mcss mphp
+all: clean mvendor msrc
 
 clean:
-	rm public/* -R -f
+	rm build/* -R -f
 
 mvendor:
-	mkdir public/vendor
-	cp -r vendor/* public/vendor/
+	mkdir build/vendor
+	cp -r vendor/* build/vendor/
 
 mcss:
-	mkdir public/css
+	mkdir build/css
 	cp -r css/* public/css
 
 mphp:
 	cp *.php public/
 
+msrc:
+	cp -r src/* build/
+
 build: all release
-	git add *
+	git add -A
 	git commit -m "Pushing v$(MAJOR).$(MINOR).$(RELEASE)"
 	git push
 
