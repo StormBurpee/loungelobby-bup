@@ -21,16 +21,20 @@
   $traktCID = "94935e9e9f17ba72fb6a34d35e814cfe1f8419f8f9e904cc955b92d0c6c345cf";
 
   $app = new \Slim\App(["settings"=>$config]);
-  $app->get('/hello/{name}', function (Request $request, Response $response) {
-      $name = $request->getAttribute('name');
-      $response->getBody()->write("Hello, $name");
-
-      return $response;
-  });
   $app->get('/trending/{limit}', function (Request $request, Response $response) {
-    $limit = $request->getAttribute('name');
+    $limit = $request->getAttribute('limit');
 
-    $shows = tmdbCall("/tv/on_the_air");
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/on_the_air?api_key=d7d64233b06969210ff543eb263f7798",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = curl_exec($curl);
+    curl_close($curl);
+
+    $shows = json_decode($resp);
+
     $trendinglist;
     $i = 0;
     foreach($shows->results as $show) {
@@ -42,8 +46,15 @@
       $i++;
     }
 
-    return $trendinglist;
+    $response->getBody()->write(json_encode($trendinglist));
+
+    return $response;
   });
+
+  $app->get('/show/{showid}', function(Request $request, Response $response) {
+
+  });
+
   $app->get('/', function(Request $request, Response $response){
     $response->getBody()->write("LoungeLobby API v4");
 
