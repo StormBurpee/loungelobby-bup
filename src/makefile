@@ -1,3 +1,6 @@
+FILE=version
+VERSION=`cat $(FILE)`
+
 all: clean mvendor mcss mphp
 
 clean:
@@ -16,5 +19,5 @@ mphp:
 
 build: all
 	git add *
-	git commit -m "Pushing v4.0.0"
+	git commit -m "Pushing v$(VERSION)"
 	git push
