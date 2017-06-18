@@ -3,14 +3,19 @@ MAJOR=`cat $(FILE) | cut -f1 -d.`
 MINOR=`cat $(FILE) | cut -f2 -d.`
 RELEASE=`cat $(FILE) | cut -f3 -d.`
 
-all: clean mvendor msrc
+all: clean mapi mvendor msrc
 
 clean:
 	rm build/* -R -f
 
 mvendor:
-	mkdir build/vendor
-	cp -r vendor/* build/vendor/
+	mkdir build/api/vendor
+	cp -r vendor/* build/api/vendor/
+
+mapi:
+	mkdir build/api
+	cp -r -an srcapi/* build/api
+	cp srcapi/.htaccess build/api
 
 mcss:
 	mkdir build/css
