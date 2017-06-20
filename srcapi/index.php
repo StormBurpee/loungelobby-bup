@@ -46,12 +46,108 @@
       $i++;
     }
 
-    $response->getBody()->write(json_encode($trendinglist));
+    $nr = $response->withJson($trendinglist);
 
-    return $response;
+    return $nr;
   });
 
   $app->get('/show/{showid}', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = json_decode(curl_exec($curl));
+    curl_close($curl);
+    //$response->getBody()->write(json_encode($resp));
+    $nr = $response->withJson($resp);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/mainmedia', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid/images?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $image = json_decode(curl_exec($curl));
+    curl_close($curl);
+    //$response->getBody()->write(json_encode(["https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]));
+    $nr = $response->withJson(["poster"=>"https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "backdrop"=>"https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/poster', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid/images?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $image = json_decode(curl_exec($curl));
+    curl_close($curl);
+    //$response->getBody()->write(json_encode(["https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]));
+    $nr = $response->withJson(["poster"=>"https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path]);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/posters', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid/images?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $image = json_decode(curl_exec($curl));
+    curl_close($curl);
+    foreach($image->posters as $p) {
+      $p->file_path = "https://image.tmdb.org/t/p/w500".$p->file_path;
+    }
+    //$response->getBody()->write(json_encode(["https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]));
+    $nr = $response->withJson($image->posters);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/backdrop', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid/images?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $image = json_decode(curl_exec($curl));
+    curl_close($curl);
+    //$response->getBody()->write(json_encode(["https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]));
+    $nr = $response->withJson(["backdrop"=>"https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/backdrops', function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid/images?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $image = json_decode(curl_exec($curl));
+    curl_close($curl);
+    foreach($image->backdrops as $p) {
+      $p->file_path = "https://image.tmdb.org/t/p/w500".$p->file_path;
+    }
+    //$response->getBody()->write(json_encode(["https://image.tmdb.org/t/p/w500".$image->posters[0]->file_path, "https://image.tmdb.org/t/p/w1280".$image->backdrops[0]->file_path]));
+    $nr = $response->withJson($image->backdrops);
+    return $nr;
+  });
+
+  $app->get('/show/{showid}/seasons', function(Request $request, Response $response) {
 
   });
 
