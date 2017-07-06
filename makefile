@@ -25,7 +25,9 @@ mphp:
 	cp *.php public/
 
 msrc:
-	cp -r src/* build/
+	ng build
+	cp -r dist/* build/
+	#cp -r src/* build/
 
 build: all release
 	git add -A
