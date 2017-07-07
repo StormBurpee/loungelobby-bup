@@ -34,7 +34,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The whole content below can be removed with the new code.-->\n<md-sidenav-container>\n  <md-sidenav #sidenav>\n    Sidenav\n  </md-sidenav>\n  <app-header></app-header>\n</md-sidenav-container>\n"
+module.exports = "<!--The whole content below can be removed with the new code.-->\n<md-sidenav-container>\n  <md-sidenav #sidenav>\n    Sidenav Test\n  </md-sidenav>\n  <app-header></app-header>\n</md-sidenav-container>\n"
 
 /***/ }),
 
@@ -58,7 +58,7 @@ var AppComponent = (function () {
     return AppComponent;
 }());
 AppComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
         styles: [__webpack_require__("../../../../../src/app/app.component.css")]
@@ -78,8 +78,9 @@ AppComponent = __decorate([
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__app_component__ = __webpack_require__("../../../../../src/app/app.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__components_header_header_component__ = __webpack_require__("../../../../../src/app/components/header/header.component.ts");
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__components_header_loggedin_header_loggedin_component__ = __webpack_require__("../../../../../src/app/components/header-loggedin/header-loggedin.component.ts");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_5_hammerjs__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__angular_material__ = __webpack_require__("../../../material/@angular/material.es5.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_hammerjs__ = __webpack_require__("../../../../hammerjs/hammer.js");
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6_hammerjs___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_6_hammerjs__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return AppModule; });
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -87,6 +88,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
+
 
 
 
@@ -106,7 +108,8 @@ AppModule = __decorate([
             __WEBPACK_IMPORTED_MODULE_4__components_header_loggedin_header_loggedin_component__["a" /* HeaderLoggedinComponent */]
         ],
         imports: [
-            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */]
+            __WEBPACK_IMPORTED_MODULE_0__angular_platform_browser__["a" /* BrowserModule */],
+            __WEBPACK_IMPORTED_MODULE_5__angular_material__["a" /* MaterialModule */]
         ],
         providers: [],
         bootstrap: [__WEBPACK_IMPORTED_MODULE_2__app_component__["a" /* AppComponent */]]
@@ -166,7 +169,7 @@ var HeaderLoggedinComponent = (function () {
     return HeaderLoggedinComponent;
 }());
 HeaderLoggedinComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Component */])({
         selector: 'app-header-loggedin',
         template: __webpack_require__("../../../../../src/app/components/header-loggedin/header-loggedin.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/header-loggedin/header-loggedin.component.css")]
@@ -186,7 +189,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-header {\n  \n}\n", ""]);
+exports.push([module.i, ".ll-header {\n  position: fixed;\n  width: 100%;\n  top: 0px;\n  left: 0px;\n}\n\n.ll-toolbar {\n\n}\n\n.ll-fillspace {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto;\n}\n", ""]);
 
 // exports
 
@@ -199,7 +202,7 @@ module.exports = module.exports.toString();
 /***/ "../../../../../src/app/components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"ll-header\">\n  <md-toolbar color=\"primary\" class=\"ll-toolbar\">\n    <span>1</span>\n    <span>2</span>\n\n    <span class=\"ll-fillspace\"></span>\n\n    <span>3</span>\n    <span>4</span>\n  </md-toolbar>\n</header>\n"
+module.exports = "<header class=\"ll-header\">\n  <md-toolbar color=\"primary\" class=\"ll-toolbar\">\n    <span (click)=\"sidenav.open()\">1</span>\n    <span>2</span>\n\n    <span class=\"ll-fillspace\"></span>\n\n    <span>3</span>\n    <span>4</span>\n  </md-toolbar>\n</header>\n"
 
 /***/ }),
 
@@ -227,7 +230,7 @@ var HeaderComponent = (function () {
     return HeaderComponent;
 }());
 HeaderComponent = __decorate([
-    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_0" /* Component */])({
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["q" /* Component */])({
         selector: 'app-header',
         template: __webpack_require__("../../../../../src/app/components/header/header.component.html"),
         styles: [__webpack_require__("../../../../../src/app/components/header/header.component.css")]

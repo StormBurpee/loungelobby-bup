@@ -5,6 +5,8 @@ import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { HeaderLoggedinComponent } from './components/header-loggedin/header-loggedin.component';
 
+import { MaterialModule } from '@angular/material';
+
 import 'hammerjs';
 
 @NgModule({
@@ -14,7 +16,8 @@ import 'hammerjs';
     HeaderLoggedinComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    MaterialModule
   ],
   providers: [],
   bootstrap: [AppComponent]

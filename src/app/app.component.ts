@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { HeaderComponent } from './components/header/header.component';
-import { MdSidenavModule } from '@angular/material';
 
 @Component({
   selector: 'app-root',
