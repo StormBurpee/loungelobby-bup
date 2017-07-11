@@ -27,8 +27,76 @@
   $container = $app->getContainer();
   $container['ws'] = "http://mywatchseries.to";
   $container['url'] = "http://theloungelobby.com";
+  $container['img'] = $tmdbImage;
+
+  $app->get('/featured', function (Request $request, Response $response) {
+    $limit = 5;
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/popular?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = curl_exec($curl);
+    curl_close($curl);
+
+    $shows = json_decode($resp);
+
+    $results;
+    $trendinglist;
+    $i = 0;
+
+    foreach($shows->results as $show) {
+      $show->poster_path = $this->img."/w500".$show->poster_path;
+      $show->backdrop_path = $this->img."/w1280".$show->backdrop_path;
+      $results[] = $show;
+    }
+
+    usort($results, function($b, $a) { return $a->vote_count - $b->vote_count; });
+
+    foreach($results as $show) {
+      if($i < $limit) {
+        $trendinglist[] = $show;
+      }
+      $i++;
+    }
+
+    $nr = $response->withJson($trendinglist);
+
+    return $nr;
+  });
 
   $app->get('/trending/{limit}', function (Request $request, Response $response) {
+    $limit = $request->getAttribute('limit');
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/popular?api_key=d7d64233b06969210ff543eb263f7798&language=en",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = curl_exec($curl);
+    curl_close($curl);
+
+    $shows = json_decode($resp);
+
+    $trendinglist;
+    $i = 0;
+    foreach($shows->results as $show) {
+      if($i < $limit) {
+        $show->poster_path = $this->img."/w500".$show->poster_path;
+        $show->backdrop_path = $this->img."/w1280".$show->backdrop_path;
+        $trendinglist[] = $show;
+      }
+      $i++;
+    }
+
+    $nr = $response->withJson($trendinglist);
+
+    return $nr;
+  });
+
+  $app->get('/airing/{limit}', function (Request $request, Response $response) {
     $limit = $request->getAttribute('limit');
 
     $curl = curl_init();
@@ -42,12 +110,20 @@
 
     $shows = json_decode($resp);
 
+    $results;
     $trendinglist;
     $i = 0;
+
     foreach($shows->results as $show) {
+      $show->poster_path = $this->img."/w500".$show->poster_path;
+      $show->backdrop_path = $this->img."/w1280".$show->backdrop_path;
+      $results[] = $show;
+    }
+
+    usort($results, function($b, $a) { return $a->vote_count - $b->vote_count; });
+
+    foreach($results as $show) {
       if($i < $limit) {
-        $show->poster_path = $tmdbImage."/w500".$show->poster_path;
-        $show->backdrop_path = $tmdbImage."/w1280".$show->backdrop_path;
         $trendinglist[] = $show;
       }
       $i++;

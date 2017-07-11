@@ -1,0 +1,83 @@
+<!-- featured -->
+<div class="ll-home-slide featured">
+  <div class="ll-slide-body">
+    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="featureConfig">
+      <div ngxSlickItem *ngFor="let show of featured" class="slide">
+        <div class="ll-slide-image">
+          <img src="{{ show.backdrop_path }}" alt="" width="100%">
+          <h3>{{show.name}}</h3>
+        </div>
+      </div>
+    </ngx-slick>
+  </div>
+</div>
+
+<!-- my shows -->
+
+
+<!-- trending -->
+
+<div class="ll-home-slide">
+  <div class="ll-slide-header">
+    Trending
+  </div>
+  <div class="ll-slide-body">
+    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+      <div ngxSlickItem *ngFor="let show of trending" class="slide">
+        <div class="ll-slide-image">
+          <img src="{{ show.backdrop_path }}" alt="" width="100%">
+        </div>
+        <div class="ll-slide-ibody">
+          <h3>{{show.name}}</h3>
+          <div class="ll-slide-info">
+            <div class="info-rating">{{show.vote_average}}/10</div>
+            <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
+            <div class="info-summary">{{show.overview}}</div>
+          </div>
+        </div>
+      </div>
+    </ngx-slick>
+  </div>
+</div>
+
+<!-- Recently Added -->
+<div class="ll-home-slide">
+  <div class="ll-slide-header">
+    Recently Added
+  </div>
+  <div class="ll-slide-body">
+    <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
+      <div ngxSlickItem *ngFor="let show of airing" class="slide">
+        <div class="ll-slide-image">
+          <img src="{{ show.backdrop_path }}" alt="" width="100%">
+        </div>
+        <div class="ll-slide-ibody">
+          <h3>{{show.name}}</h3>
+          <div class="ll-slide-info">
+            <div class="info-rating">{{show.vote_average}}/10</div>
+            <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
+            <div class="info-summary">{{show.overview}}</div>
+          </div>
+        </div>
+      </div>
+    </ngx-slick>
+  </div>
+</div>
+
+<!-- Discover -->
+
+<!--<md-grid-list cols="6" rowHeight="100%" gutterSize="10px">
+  <md-grid-tile
+      *ngFor="let show of trending"
+      [colspan]="2"
+      [rowspan]="1">
+
+      <md-card class="ll-show-card">
+        <img md-card-image src="{{show.backdrop_path}}">
+        <md-card-content>
+          {{show.name}}
+        </md-card-content>
+      </md-card>
+
+  </md-grid-tile>
+</md-grid-list>-->

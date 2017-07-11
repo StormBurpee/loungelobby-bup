@@ -1,7 +1,10 @@
 <!--The whole content below can be removed with the new code.-->
-<md-sidenav-container>
-  <md-sidenav #sidenav>
-    Sidenav Test
+<md-sidenav-container class="ll-container">
+  <md-sidenav #sidenav class="ll-sidenav" md-is-locked-open="false" mode="push">
+    <app-sidebar></app-sidebar>
   </md-sidenav>
-  <app-header></app-header>
+  <app-header (navToggle)="sidenav.toggle()"></app-header>
+  <div class="ll-body">
+    <router-outlet></router-outlet>
+  </div>
 </md-sidenav-container>

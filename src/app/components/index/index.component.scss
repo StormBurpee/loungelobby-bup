@@ -1,0 +1,46 @@
+.ll-home-slide {
+
+  margin-bottom: 30px;
+  width: 100%;
+  position: relative;
+
+  & .ll-slide-header {
+    width: 100%;
+    text-align: center;
+    padding: 10px 0;
+    text-transform: uppercase;
+    color: #999;
+  }
+
+  & .ll-slide-body {
+
+    & .ll-slide-ibody {
+      padding: 10px 60px;
+
+      h3 {
+        font-size: 18px;
+        margin: 0;
+        padding: 0;
+      }
+
+      & .ll-slide-info {
+        font-size: 12px;
+        position: relative;
+        div {
+          float: left;
+          padding-right: 5px;
+        }
+        & .info-rating {
+          font-size: 12px;
+        }
+        & .info-summary {
+          font-size: 12px;
+          padding-top: 5px;
+          color: #999;
+          height: 42px;
+          overflow: hidden;
+        }
+      }
+    }
+  }
+}

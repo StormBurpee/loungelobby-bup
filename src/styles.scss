@@ -1,2 +1,40 @@
 /* You can add global styles to this file, and also import other style files */
 @import '~@angular/material/prebuilt-themes/pink-bluegrey.css';
+* {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+.slick-prev {
+  left: 25px;
+  z-index: 5000;
+}
+.slick-next {
+  right: 25px;
+  z-index: 5000;
+}
+.featured {
+  & .slick-slide {
+    transform: scale(1);
+    z-index: 1;
+    transition: 0.2s all ease-in-out;
+    position: relative;
+    & h3 {
+      opacity: 0;
+      position: absolute;
+      z-index: 99999;
+      transform: translateX(-50%) translateY(-50%);
+      top: 40%;
+      left: 50%;
+    }
+    & .ll-slide-ibody {
+      display: none;
+    }
+    &.slick-center {
+      transform: scale(1.5);
+      z-index: 999;
+      & h3 {
+        opacity: 1;
+        color: #fff;
+      }
+    }
+  }
+}

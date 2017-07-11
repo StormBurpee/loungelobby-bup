@@ -1,0 +1,22 @@
+.ll-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+  background: #fff;
+
+  .ll-sidenav {
+    width: 250px;
+  }
+}
+
+.ll-body {
+  position: absolute;
+  top: 64px;
+  left: 0px;
+  right: 0px;
+  bottom: 0px;
+  overflow: auto;
+}
