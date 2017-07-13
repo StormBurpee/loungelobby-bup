@@ -30,7 +30,7 @@
   $container['img'] = $tmdbImage;
 
   $app->get('/featured', function (Request $request, Response $response) {
-    $limit = 5;
+    $limit = 8;
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,

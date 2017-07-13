@@ -17,8 +17,64 @@ export class IndexComponent implements OnInit {
   airing: Trending[];
   featured: Trending[];
 
-  slideConfig = { "slidesToShow": 3, "slidesToScroll": 3, "speed": 300, "dots": false, "autoplay": false, "autoplaySpeed": 5000 };
-  featureConfig = { "slidesToShow": 3, "slidesToScroll": 1, "speed": 300, "dots": false, "autoplay": true, "autoplaySpeed": 5000, "centerMode": true, "centerPadding": "60px" };
+  slideConfig = {
+    "slidesToShow": 4,
+    "slidesToScroll": 4,
+    "speed": 300,
+    "dots": false,
+    "autoplay": false,
+    "autoplaySpeed": 5000,
+    "responsive": [
+      {
+        "breakpoint": 1024,
+        settings: {
+          "slidesToShow": 3,
+          "slidesToScroll": 3
+        }
+      },
+      {
+        "breakpoint": 800,
+        settings: {
+          "slidesToShow": 2,
+          "slidesToScroll": 2
+        }
+      },
+      {
+        "breakpoint": 500,
+        settings: {
+          "slidesToShow": 1,
+          "slidesToScroll": 1
+        }
+      }
+    ]
+  };
+  featureConfig = {
+    "slidesToShow": 5,
+    "slidesToScroll": 1,
+    "speed": 300,
+    "dots": false,
+    "autoplay": true,
+    "autoplaySpeed": 5000,
+    "centerMode": true,
+    "centerPadding": "60px",
+    "responsive": [
+      {
+        "breakpoint": 1024,
+        settings: {
+          "slidesToShow": 3,
+          "slidesToScroll": 1
+        }
+      },
+      {
+        "breakpoint": 800,
+        settings: {
+          "slidesToShow": 2,
+          "slidesToScroll": 1,
+          "centerMode": false
+        }
+      }
+    ]
+  };
 
   constructor(private trendingService: TrendingService) { }
 

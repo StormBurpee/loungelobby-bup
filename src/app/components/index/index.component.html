@@ -1,12 +1,16 @@
 <!-- featured -->
 <div class="ll-home-slide featured">
+  <div class="ll-slide-header">
+    LoungeLobby's Featured Shows
+  </div>
   <div class="ll-slide-body">
     <ngx-slick class="carousel" #slickModal="slick-modal" [config]="featureConfig">
       <div ngxSlickItem *ngFor="let show of featured" class="slide">
-        <div class="ll-slide-image">
-          <img src="{{ show.backdrop_path }}" alt="" width="100%">
-          <h3>{{show.name}}</h3>
-        </div>
+        <a  routerLink="/show/{{show.id}}" routerLinkActive="active" style="display: block">
+          <div class="ll-slide-image">
+            <img src="{{ show.poster_path }}" alt="" width="100%">
+          </div>
+        </a>
       </div>
     </ngx-slick>
   </div>
@@ -24,17 +28,19 @@
   <div class="ll-slide-body">
     <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
       <div ngxSlickItem *ngFor="let show of trending" class="slide">
-        <div class="ll-slide-image">
-          <img src="{{ show.backdrop_path }}" alt="" width="100%">
-        </div>
-        <div class="ll-slide-ibody">
-          <h3>{{show.name}}</h3>
-          <div class="ll-slide-info">
-            <div class="info-rating">{{show.vote_average}}/10</div>
-            <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
-            <div class="info-summary">{{show.overview}}</div>
+        <a  routerLink="/show/{{show.id}}" routerLinkActive="active" style="display: block">
+          <div class="ll-slide-image">
+            <img src="{{ show.backdrop_path }}" alt="" width="100%">
           </div>
-        </div>
+          <div class="ll-slide-ibody">
+            <h3>{{show.name}}</h3>
+            <div class="ll-slide-info">
+              <div class="info-rating">{{show.vote_average}}/10</div>
+              <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
+              <div class="info-summary">{{show.overview}}</div>
+            </div>
+          </div>
+        </a>
       </div>
     </ngx-slick>
   </div>
@@ -48,17 +54,19 @@
   <div class="ll-slide-body">
     <ngx-slick class="carousel" #slickModal="slick-modal" [config]="slideConfig">
       <div ngxSlickItem *ngFor="let show of airing" class="slide">
-        <div class="ll-slide-image">
-          <img src="{{ show.backdrop_path }}" alt="" width="100%">
-        </div>
-        <div class="ll-slide-ibody">
-          <h3>{{show.name}}</h3>
-          <div class="ll-slide-info">
-            <div class="info-rating">{{show.vote_average}}/10</div>
-            <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
-            <div class="info-summary">{{show.overview}}</div>
+        <a  routerLink="/show/{{show.id}}" routerLinkActive="active" style="display: block">
+          <div class="ll-slide-image">
+            <img src="{{ show.backdrop_path }}" alt="" width="100%">
           </div>
-        </div>
+          <div class="ll-slide-ibody">
+            <h3>{{show.name}}</h3>
+            <div class="ll-slide-info">
+              <div class="info-rating">{{show.vote_average}}/10</div>
+              <div class="info-year">{{show.first_air_date.substring(0,4)}}</div>
+              <div class="info-summary">{{show.overview}}</div>
+            </div>
+          </div>
+        </a>
       </div>
     </ngx-slick>
   </div>

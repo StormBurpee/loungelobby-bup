@@ -351,7 +351,7 @@ HeaderComponent = __decorate([
 /***/ "../../../../../src/app/components/index/index.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- featured -->\n<div class=\"ll-home-slide featured\">\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"featureConfig\">\n      <div ngxSlickItem *ngFor=\"let show of featured\" class=\"slide\">\n        <div class=\"ll-slide-image\">\n          <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          <h3>{{show.name}}</h3>\n        </div>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- my shows -->\n\n\n<!-- trending -->\n\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Trending\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of trending\" class=\"slide\">\n        <div class=\"ll-slide-image\">\n          <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n        </div>\n        <div class=\"ll-slide-ibody\">\n          <h3>{{show.name}}</h3>\n          <div class=\"ll-slide-info\">\n            <div class=\"info-rating\">{{show.vote_average}}/10</div>\n            <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n            <div class=\"info-summary\">{{show.overview}}</div>\n          </div>\n        </div>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Recently Added -->\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Recently Added\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of airing\" class=\"slide\">\n        <div class=\"ll-slide-image\">\n          <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n        </div>\n        <div class=\"ll-slide-ibody\">\n          <h3>{{show.name}}</h3>\n          <div class=\"ll-slide-info\">\n            <div class=\"info-rating\">{{show.vote_average}}/10</div>\n            <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n            <div class=\"info-summary\">{{show.overview}}</div>\n          </div>\n        </div>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Discover -->\n\n<!--<md-grid-list cols=\"6\" rowHeight=\"100%\" gutterSize=\"10px\">\n  <md-grid-tile\n      *ngFor=\"let show of trending\"\n      [colspan]=\"2\"\n      [rowspan]=\"1\">\n\n      <md-card class=\"ll-show-card\">\n        <img md-card-image src=\"{{show.backdrop_path}}\">\n        <md-card-content>\n          {{show.name}}\n        </md-card-content>\n      </md-card>\n\n  </md-grid-tile>\n</md-grid-list>-->\n"
+module.exports = "<!-- featured -->\n<div class=\"ll-home-slide featured\">\n  <div class=\"ll-slide-header\">\n    LoungeLobby's Featured Shows\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"featureConfig\">\n      <div ngxSlickItem *ngFor=\"let show of featured\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.poster_path }}\" alt=\"\" width=\"100%\">\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- my shows -->\n\n\n<!-- trending -->\n\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Trending\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of trending\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Recently Added -->\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Recently Added\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of airing\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Discover -->\n\n<!--<md-grid-list cols=\"6\" rowHeight=\"100%\" gutterSize=\"10px\">\n  <md-grid-tile\n      *ngFor=\"let show of trending\"\n      [colspan]=\"2\"\n      [rowspan]=\"1\">\n\n      <md-card class=\"ll-show-card\">\n        <img md-card-image src=\"{{show.backdrop_path}}\">\n        <md-card-content>\n          {{show.name}}\n        </md-card-content>\n      </md-card>\n\n  </md-grid-tile>\n</md-grid-list>-->\n"
 
 /***/ }),
 
@@ -363,7 +363,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-home-slide {\n  margin-bottom: 30px;\n  width: 100%;\n  position: relative; }\n  .ll-home-slide .ll-slide-header {\n    width: 100%;\n    text-align: center;\n    padding: 10px 0;\n    text-transform: uppercase;\n    color: #999; }\n  .ll-home-slide .ll-slide-body .ll-slide-ibody {\n    padding: 10px 60px; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody h3 {\n      font-size: 18px;\n      margin: 0;\n      padding: 0; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info {\n      font-size: 12px;\n      position: relative; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info div {\n        float: left;\n        padding-right: 5px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-rating {\n        font-size: 12px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-summary {\n        font-size: 12px;\n        padding-top: 5px;\n        color: #999;\n        height: 42px;\n        overflow: hidden; }\n", ""]);
+exports.push([module.i, ".ll-home-slide {\n  margin-bottom: 30px;\n  width: 100%;\n  position: relative; }\n  .ll-home-slide a {\n    text-decoration: none;\n    color: #1b1b1b; }\n  .ll-home-slide .ll-slide-header {\n    width: 100%;\n    text-align: center;\n    padding: 10px 0;\n    text-transform: uppercase;\n    color: #999; }\n  .ll-home-slide .ll-slide-body .ll-slide-ibody {\n    padding: 10px 60px; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody h3 {\n      font-size: 18px;\n      margin: 0;\n      padding: 0; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info {\n      font-size: 12px;\n      position: relative; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info div {\n        float: left;\n        padding-right: 5px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-rating {\n        font-size: 12px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-summary {\n        font-size: 12px;\n        padding-top: 5px;\n        color: #999;\n        height: 42px;\n        overflow: hidden; }\n", ""]);
 
 // exports
 
@@ -394,8 +394,64 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var IndexComponent = (function () {
     function IndexComponent(trendingService) {
         this.trendingService = trendingService;
-        this.slideConfig = { "slidesToShow": 3, "slidesToScroll": 3, "speed": 300, "dots": false, "autoplay": false, "autoplaySpeed": 5000 };
-        this.featureConfig = { "slidesToShow": 3, "slidesToScroll": 1, "speed": 300, "dots": false, "autoplay": true, "autoplaySpeed": 5000, "centerMode": true, "centerPadding": "60px" };
+        this.slideConfig = {
+            "slidesToShow": 4,
+            "slidesToScroll": 4,
+            "speed": 300,
+            "dots": false,
+            "autoplay": false,
+            "autoplaySpeed": 5000,
+            "responsive": [
+                {
+                    "breakpoint": 1024,
+                    settings: {
+                        "slidesToShow": 3,
+                        "slidesToScroll": 3
+                    }
+                },
+                {
+                    "breakpoint": 800,
+                    settings: {
+                        "slidesToShow": 2,
+                        "slidesToScroll": 2
+                    }
+                },
+                {
+                    "breakpoint": 500,
+                    settings: {
+                        "slidesToShow": 1,
+                        "slidesToScroll": 1
+                    }
+                }
+            ]
+        };
+        this.featureConfig = {
+            "slidesToShow": 5,
+            "slidesToScroll": 1,
+            "speed": 300,
+            "dots": false,
+            "autoplay": true,
+            "autoplaySpeed": 5000,
+            "centerMode": true,
+            "centerPadding": "60px",
+            "responsive": [
+                {
+                    "breakpoint": 1024,
+                    settings: {
+                        "slidesToShow": 3,
+                        "slidesToScroll": 1
+                    }
+                },
+                {
+                    "breakpoint": 800,
+                    settings: {
+                        "slidesToShow": 2,
+                        "slidesToScroll": 1,
+                        "centerMode": false
+                    }
+                }
+            ]
+        };
     }
     IndexComponent.prototype.ngOnInit = function () {
         this.getTrending();
