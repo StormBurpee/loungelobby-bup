@@ -16,7 +16,7 @@ webpackEmptyContext.id = "../../../../../src async recursive";
 /***/ "../../../../../src/app/app.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!--The whole content below can be removed with the new code.-->\n<md-sidenav-container class=\"ll-container\">\n  <md-sidenav #sidenav class=\"ll-sidenav\" md-is-locked-open=\"false\" mode=\"push\">\n    <app-sidebar></app-sidebar>\n  </md-sidenav>\n  <app-header (navToggle)=\"sidenav.toggle()\"></app-header>\n  <div class=\"ll-body\">\n    <router-outlet></router-outlet>\n  </div>\n</md-sidenav-container>\n"
+module.exports = "<md-sidenav-container #wrapper class=\"ll-container\">\n  <md-sidenav #sidenav class=\"ll-sidenav\" md-is-locked-open=\"false\" mode=\"{{menuMode}}\" [opened]=\"opened\">\n    <app-sidebar></app-sidebar>\n  </md-sidenav>\n  <app-header (navToggle)=\"sidenav.toggle()\" class=\"ll-h-c\"></app-header>\n  <div class=\"ll-body\">\n    <router-outlet></router-outlet>\n  </div>\n</md-sidenav-container>\n"
 
 /***/ }),
 
@@ -28,7 +28,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  background: #fff; }\n  .ll-container .ll-sidenav {\n    width: 250px; }\n\n.ll-body {\n  position: absolute;\n  top: 64px;\n  left: 0px;\n  right: 0px;\n  bottom: 0px;\n  overflow: auto; }\n", ""]);
+exports.push([module.i, ".ll-container {\n  position: absolute;\n  top: 0;\n  left: 0;\n  right: 0;\n  bottom: 0;\n  overflow: hidden;\n  background: #fff; }\n  .ll-container .ll-sidenav {\n    width: 250px; }\n\n.ll-body {\n  position: absolute;\n  top: 0px;\n  left: 0px;\n  right: 0px;\n  bottom: 0px;\n  overflow: auto;\n  background: #f8f8f8; }\n\n.ll-h-c {\n  height: 64px; }\n", ""]);
 
 // exports
 
@@ -54,7 +54,19 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var AppComponent = (function () {
     function AppComponent() {
         this.title = 'LoungeLobby';
+        this.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
     }
+    AppComponent.prototype.ngOnInit = function () {
+        // Do your simple test on the container, for example
+        if (this.width <= 600) {
+            this.menuMode = "push";
+            this.opened = "false";
+        }
+        else {
+            this.menuMode = "side";
+            this.opened = "true;";
+        }
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
@@ -282,7 +294,7 @@ HeaderLoggedinComponent = __decorate([
 /***/ "../../../../../src/app/components/header/header.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<header class=\"ll-header\">\n  <md-toolbar color=\"primary\" class=\"ll-toolbar\">\n    <span (click)=\"navOpen()\" class=\"header-nav\"><md-icon>menu</md-icon></span>\n\n    <span class=\"ll-fillspace\"></span>\n    <span class=\"ll-logo\">LoungeLobby</span>\n    <span class=\"ll-fillspace\"></span>\n\n    <span class=\"header-nav\"><md-icon>search</md-icon></span>\n  </md-toolbar>\n</header>\n"
+module.exports = "<header class=\"ll-header\" fxHide.lt-sm=\"false\" fxHide>\n  <md-toolbar color=\"white\" class=\"ll-toolbar\">\n    <span (click)=\"navOpen()\" class=\"header-nav\"><md-icon>menu</md-icon></span>\n\n    <span class=\"ll-fillspace\"></span>\n    <span class=\"ll-logo\">LoungeLobby</span>\n    <span class=\"ll-fillspace\"></span>\n\n    <span class=\"header-nav\"><md-icon>search</md-icon></span>\n  </md-toolbar>\n</header>\n"
 
 /***/ }),
 
@@ -294,7 +306,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-header {\n  position: fixed;\n  width: 100%;\n  top: 0px;\n  left: 0px; }\n  .ll-header span {\n    padding: 0 5px;\n    height: 32px;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    vertical-align: middle; }\n    .ll-header span.header-nav {\n      cursor: pointer; }\n    .ll-header span .mat-icon {\n      line-height: 32px;\n      padding-right: 10px; }\n\n.ll-logo {\n  position: absolute;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n  left: 50%; }\n\n.ll-fillspace {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto; }\n", ""]);
+exports.push([module.i, ".ll-header {\n  position: fixed;\n  width: 100%;\n  top: 0px;\n  left: 0px;\n  z-index: 99;\n  background: #fff; }\n  .ll-header .ll-toolbar {\n    background: #fff; }\n  .ll-header span {\n    padding: 0 5px;\n    height: 32px;\n    display: -webkit-inline-box;\n    display: -ms-inline-flexbox;\n    display: inline-flex;\n    vertical-align: middle; }\n    .ll-header span.header-nav {\n      cursor: pointer; }\n    .ll-header span .mat-icon {\n      line-height: 32px;\n      padding-right: 10px; }\n\n.ll-logo {\n  position: absolute;\n  -webkit-transform: translateX(-50%);\n          transform: translateX(-50%);\n  left: 50%; }\n\n.ll-fillspace {\n  -webkit-box-flex: 1;\n      -ms-flex: 1 1 auto;\n          flex: 1 1 auto; }\n", ""]);
 
 // exports
 
@@ -351,7 +363,7 @@ HeaderComponent = __decorate([
 /***/ "../../../../../src/app/components/index/index.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<!-- featured -->\n<div class=\"ll-home-slide featured\">\n  <div class=\"ll-slide-header\">\n    LoungeLobby's Featured Shows\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"featureConfig\">\n      <div ngxSlickItem *ngFor=\"let show of featured\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.poster_path }}\" alt=\"\" width=\"100%\">\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- my shows -->\n\n\n<!-- trending -->\n\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Trending\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of trending\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Recently Added -->\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Recently Added\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of airing\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- Discover -->\n\n<!--<md-grid-list cols=\"6\" rowHeight=\"100%\" gutterSize=\"10px\">\n  <md-grid-tile\n      *ngFor=\"let show of trending\"\n      [colspan]=\"2\"\n      [rowspan]=\"1\">\n\n      <md-card class=\"ll-show-card\">\n        <img md-card-image src=\"{{show.backdrop_path}}\">\n        <md-card-content>\n          {{show.name}}\n        </md-card-content>\n      </md-card>\n\n  </md-grid-tile>\n</md-grid-list>-->\n"
+module.exports = "<!-- featured -->\n<div style=\"margin-top: 64px;\"  fxHide.lt-sm=\"false\" fxHide.gt-sm=\"true\" fxHide></div>\n<div class=\"ll-home-slide featured\">\n  <div class=\"ll-slide-header\">\n    LoungeLobby's Featured Shows\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"featureConfig\">\n      <div ngxSlickItem *ngFor=\"let show of featured\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.poster_path }}\" alt=\"\" width=\"100%\">\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>\n\n<!-- recently added -->\n<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Recently Added\n  </div>\n  <div class=\"ll-slide-body bll-body\">\n    <div fxLayout=\"row\" fxLayoutGap=\"0px\" fxLayoutWrap>\n      <div fxFlex=\"20%\" fxFlex.lt-md=\"33%\" *ngFor=\"let show of airing\" class=\"bll-show-container\">\n        <a routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"image\">\n            <img src=\"{{show.poster_path}}\" alt=\"Watch {{show.name}} Online\" title=\"Watch {{show.name}} Online free at LoungeLobby\">\n          </div>\n          <div class=\"info\">\n            <div class=\"title\">{{show.name}}</div>\n            <div class=\"date\">{{show.first_air_date.substring(0,4)}}</div>\n          </div>\n        </a>\n      </div>\n    </div>\n  </div>\n</div>\n\n<!-- my shows -->\n\n\n<!-- trending -->\n\n<!--<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Trending\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of trending\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>-->\n\n<!-- Recently Added -->\n<!--<div class=\"ll-home-slide\">\n  <div class=\"ll-slide-header\">\n    Recently Added\n  </div>\n  <div class=\"ll-slide-body\">\n    <ngx-slick class=\"carousel\" #slickModal=\"slick-modal\" [config]=\"slideConfig\">\n      <div ngxSlickItem *ngFor=\"let show of airing\" class=\"slide\">\n        <a  routerLink=\"/show/{{show.id}}\" routerLinkActive=\"active\" style=\"display: block\">\n          <div class=\"ll-slide-image\">\n            <img src=\"{{ show.backdrop_path }}\" alt=\"\" width=\"100%\">\n          </div>\n          <div class=\"ll-slide-ibody\">\n            <h3>{{show.name}}</h3>\n            <div class=\"ll-slide-info\">\n              <div class=\"info-rating\">{{show.vote_average}}/10</div>\n              <div class=\"info-year\">{{show.first_air_date.substring(0,4)}}</div>\n              <div class=\"info-summary\">{{show.overview}}</div>\n            </div>\n          </div>\n        </a>\n      </div>\n    </ngx-slick>\n  </div>\n</div>-->\n\n<!-- Discover -->\n\n<!--<md-grid-list cols=\"6\" rowHeight=\"100%\" gutterSize=\"10px\">\n  <md-grid-tile\n      *ngFor=\"let show of trending\"\n      [colspan]=\"2\"\n      [rowspan]=\"1\">\n\n      <md-card class=\"ll-show-card\">\n        <img md-card-image src=\"{{show.backdrop_path}}\">\n        <md-card-content>\n          {{show.name}}\n        </md-card-content>\n      </md-card>\n\n  </md-grid-tile>\n</md-grid-list>-->\n"
 
 /***/ }),
 
@@ -363,7 +375,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-home-slide {\n  margin-bottom: 30px;\n  width: 100%;\n  position: relative; }\n  .ll-home-slide a {\n    text-decoration: none;\n    color: #1b1b1b; }\n  .ll-home-slide .ll-slide-header {\n    width: 100%;\n    text-align: center;\n    padding: 10px 0;\n    text-transform: uppercase;\n    color: #999; }\n  .ll-home-slide .ll-slide-body .ll-slide-ibody {\n    padding: 10px 60px; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody h3 {\n      font-size: 18px;\n      margin: 0;\n      padding: 0; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info {\n      font-size: 12px;\n      position: relative; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info div {\n        float: left;\n        padding-right: 5px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-rating {\n        font-size: 12px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-summary {\n        font-size: 12px;\n        padding-top: 5px;\n        color: #999;\n        height: 42px;\n        overflow: hidden; }\n", ""]);
+exports.push([module.i, ".ll-home-slide {\n  margin-bottom: 30px;\n  width: 100%;\n  position: relative; }\n  .ll-home-slide a {\n    text-decoration: none;\n    color: #1b1b1b; }\n  .ll-home-slide .ll-slide-header {\n    width: 100%;\n    text-align: center;\n    padding: 10px 0;\n    text-transform: uppercase;\n    color: #999; }\n  .ll-home-slide .ll-slide-body .ll-slide-ibody {\n    padding: 10px 60px; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody h3 {\n      font-size: 18px;\n      margin: 0;\n      padding: 0; }\n    .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info {\n      font-size: 12px;\n      position: relative; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info div {\n        float: left;\n        padding-right: 5px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-rating {\n        font-size: 12px; }\n      .ll-home-slide .ll-slide-body .ll-slide-ibody .ll-slide-info .info-summary {\n        font-size: 12px;\n        padding-top: 5px;\n        color: #999;\n        height: 42px;\n        overflow: hidden; }\n\n.bll-body {\n  padding: 0px 30px; }\n\n.bll-show-container {\n  margin-top: 20px; }\n  .bll-show-container .image {\n    position: relative;\n    padding: 0 10px; }\n    .bll-show-container .image img {\n      width: 100%;\n      height: auto;\n      border-radius: 20px; }\n  .bll-show-container .info {\n    text-align: center;\n    padding-top: 10px;\n    width: 100%; }\n    .bll-show-container .info .title {\n      font-weight: 400;\n      font-size: 16px;\n      display: -webkit-box;\n      -webkit-line-clamp: 2;\n      -webkit-box-orient: vertical;\n      overflow: hidden;\n      text-overflow: ellipsis; }\n    .bll-show-container .info .date {\n      font-weight: 300;\n      font-size: 14px; }\n", ""]);
 
 // exports
 
@@ -762,7 +774,7 @@ var TrendingService = (function () {
     function TrendingService(http) {
         this.http = http;
         this.trendingUrl = "/api/trending/12";
-        this.airingUrl = "/api/airing/9";
+        this.airingUrl = "/api/airing/15";
         this.featuredUrl = "/api/featured";
     }
     TrendingService.prototype.getTrending = function () {

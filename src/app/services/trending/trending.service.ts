@@ -11,7 +11,7 @@ import { Trending } from '../../classes/trending/trending';
 export class TrendingService {
 
   private trendingUrl = "/api/trending/12";
-  private airingUrl = "/api/airing/9"
+  private airingUrl = "/api/airing/15"
   private featuredUrl = "/api/featured";
 
   constructor( private http: Http ) { }

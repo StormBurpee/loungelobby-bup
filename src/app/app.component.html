@@ -1,9 +1,8 @@
-<!--The whole content below can be removed with the new code.-->
-<md-sidenav-container class="ll-container">
-  <md-sidenav #sidenav class="ll-sidenav" md-is-locked-open="false" mode="push">
+<md-sidenav-container #wrapper class="ll-container">
+  <md-sidenav #sidenav class="ll-sidenav" md-is-locked-open="false" mode="{{menuMode}}" [opened]="opened">
     <app-sidebar></app-sidebar>
   </md-sidenav>
-  <app-header (navToggle)="sidenav.toggle()"></app-header>
+  <app-header (navToggle)="sidenav.toggle()" class="ll-h-c"></app-header>
   <div class="ll-body">
     <router-outlet></router-outlet>
   </div>

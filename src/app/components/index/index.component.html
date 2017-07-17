@@ -1,4 +1,5 @@
 <!-- featured -->
+<div style="margin-top: 64px;"  fxHide.lt-sm="false" fxHide.gt-sm="true" fxHide></div>
 <div class="ll-home-slide featured">
   <div class="ll-slide-header">
     LoungeLobby's Featured Shows
@@ -16,12 +17,34 @@
   </div>
 </div>
 
+<!-- recently added -->
+<div class="ll-home-slide">
+  <div class="ll-slide-header">
+    Recently Added
+  </div>
+  <div class="ll-slide-body bll-body">
+    <div fxLayout="row" fxLayoutGap="0px" fxLayoutWrap>
+      <div fxFlex="20%" fxFlex.lt-md="33%" *ngFor="let show of airing" class="bll-show-container">
+        <a routerLink="/show/{{show.id}}" routerLinkActive="active" style="display: block">
+          <div class="image">
+            <img src="{{show.poster_path}}" alt="Watch {{show.name}} Online" title="Watch {{show.name}} Online free at LoungeLobby">
+          </div>
+          <div class="info">
+            <div class="title">{{show.name}}</div>
+            <div class="date">{{show.first_air_date.substring(0,4)}}</div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- my shows -->
 
 
 <!-- trending -->
 
-<div class="ll-home-slide">
+<!--<div class="ll-home-slide">
   <div class="ll-slide-header">
     Trending
   </div>
@@ -44,10 +67,10 @@
       </div>
     </ngx-slick>
   </div>
-</div>
+</div>-->
 
 <!-- Recently Added -->
-<div class="ll-home-slide">
+<!--<div class="ll-home-slide">
   <div class="ll-slide-header">
     Recently Added
   </div>
@@ -70,7 +93,7 @@
       </div>
     </ngx-slick>
   </div>
-</div>
+</div>-->
 
 <!-- Discover -->
 

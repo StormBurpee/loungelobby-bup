@@ -28,6 +28,7 @@
   $container['ws'] = "http://mywatchseries.to";
   $container['url'] = "http://theloungelobby.com";
   $container['img'] = $tmdbImage;
+  $container['mysqli'] = new mysqli($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['dbname']);
 
   $app->get('/featured', function (Request $request, Response $response) {
     $limit = 8;
@@ -403,6 +404,135 @@
   $app->get('/phpinfo', function(Request $request, Response $response){
     $response->getBody()->write(phpinfo());
     return $response;
+  });
+
+  $app->get('/user', function(Request $request, Response $response) {
+
+  });
+
+  $app->get('/users/all', function(Request $request, Response $response) {
+    $users = [];
+    $r = $this->mysqli->query("SELECT * FROM users");
+    $users = ["count"=>$r->num_rows, "users"=>[]];
+    while($row = $r->fetch_object()) {
+      $users["users"][] = $row->username;
+    }
+    $response = $response->withJson($users);
+    return $response;
+  });
+
+  $app->get('/user/loggedin', function(Request $request, Response $response) {
+    $ul = ['loggedin'=>false];
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+      $ul = ["loggedin"=>true];
+    }
+    $response = $response->withJson($ul);
+    return $response;
+  });
+
+  $app->post('/user/login', function(Request $request, Response $response) {
+    $data   = $request->getParsedBody();
+
+    $ruser = [];
+    if(!isset($data['u'])) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 0;
+      $ruser['errormessage'] = "Username not supplied!";
+      $response = $response->withJson($ruser);
+      return $response;
+    } elseif(!isset($data['p'])) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 0;
+      $ruser['errormessage'] = "Password not supplied!";
+      $response = $response->withJson($ruser);
+      return $response;
+    }
+
+    $user   = $this->mysqli_escape_string($data['u']);
+    $pass   = $this->mysqli_escape_string($data['p']);
+
+    $userlookup = $this->mysqli->query("SELECT * FROM users WHERE username='$user'");
+    if($userlookup && $userlookup->num_rows > 0) {
+      while($u = $userlookup->fetch_object()) {
+        if(password_verify($pass, $u->password)) {
+          $authuser = password_hash($user, PASSWORD_DEFAULT);
+          setcookie("loggedin", true, time()+60*60*24*30, "/");
+          setcookie("userauth", "$authuser", time()+60*60*24*30, "/");
+          $userid = $u->id;
+          $this->mysqli->query("INSERT INTO auth_tokens (`userid`, `token`) VALUES ($userid, '$authuser')");
+          $ruser['loggedin'] = true;
+          $ruser['userauth'] = $authuser;
+        } else {
+          $ruser['error'] = true;
+          $ruser['errorid'] = 3;
+          $ruser['errormessage'] = "Password incorrect!";
+        }
+      }
+    } else {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 2;
+      $ruser['errormessage'] = "User: $user could not be found!";
+    }
+
+    $response = $response->withJson($ruser);
+    return $response;
+  });
+
+  $app->post('/user/register', function(Request $request, Response $response) {
+    $data   = $request->getParsedBody();
+
+    $ruser = [];
+    if(!isset($data['u'])) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 0;
+      $ruser['errormessage'] = "Username not supplied!";
+      $response = $response->withJson($ruser);
+      return $response;
+    } elseif(!isset($data['p'])) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 0;
+      $ruser['errormessage'] = "Password not supplied!";
+      $response = $response->withJson($ruser);
+      return $response;
+    } elseif(!isset($data['e'])) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 0;
+      $ruser['errormessage'] = "Email not supplied!";
+      $response = $response->withJson($ruser);
+      return $response;
+    }
+
+    $user   = $this->mysqli_escape_string($data['u']);
+    $pass   = password_hash($this->mysqli_escape_string($data['p']), PASSWORD_DEFAULT);
+    $email  = $this->mysqli_escape_string($data['e']);
+    $ref = "";
+    if(isset($data['r']))
+      $ref    = $this->mysqli_escape_string($data['r']);
+    $usercheck = $this->mysqli->query("SELECT * FROM users WHERE username='$user'");
+
+    if($usercheck->num_rows > 0) {
+      $ruser['error'] = true;
+      $ruser['errorid'] = 1;
+      $ruser['errormessage'] = "Username Taken!";
+    } else {
+      $newuser = $this->mysqli->query("INSERT INTO users (`username`, `email`, `password`, `ref`) VALUES ('$user', '$email', '$pass', '$ref')");
+      $authuser = password_hash($username, PASSWORD_DEFAULT);
+      setcookie("loggedin", true, time()+60*60*24*30, "/");
+      setcookie("userauth", "$authuser", time()+60*60*24*30, "/");
+      $userid = $this->mysqli->insert_id;
+      $this->mysqli->query("INSERT INTO auth_tokens (`userid`, `token`) VALUES ($userid, '$authuser')");
+      $ruser['loggedin'] = true;
+      $ruser['userauth'] = $authuser;
+    }
+    $response = $response->withJson($ruser);
+    return $response;
+  });
+
+  $app->get('/user/logout', function(Request $request, Response $response) {
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+      setcookie("loggedin","",time()-1, "/");
+      setcookie("userauth", "", time()-1, "/");
+    }
   });
 
   $app->run();

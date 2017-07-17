@@ -3,6 +3,12 @@
   width: 100%;
   top: 0px;
   left: 0px;
+  z-index: 99;
+  background: #fff;
+
+  & .ll-toolbar {
+    background: #fff;
+  }
 
   span {
     padding: 0 5px;

@@ -14,9 +14,14 @@
 
 .ll-body {
   position: absolute;
-  top: 64px;
+  top: 0px;
   left: 0px;
   right: 0px;
   bottom: 0px;
   overflow: auto;
+  background: #f8f8f8;
+}
+
+.ll-h-c {
+  height: 64px;
 }
