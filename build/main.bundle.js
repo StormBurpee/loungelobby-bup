@@ -67,13 +67,28 @@ var AppComponent = (function () {
             this.opened = "true;";
         }
     };
+    AppComponent.prototype.onResize = function (event) {
+        this.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+        if (this.width <= 600) {
+            this.menuMode = "push";
+            this.opened = "false";
+        }
+        else {
+            this.menuMode = "side";
+            this.opened = "true;";
+        }
+        console.log("resize :)");
+    };
     return AppComponent;
 }());
 AppComponent = __decorate([
     __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_10" /* Component */])({
         selector: 'app-root',
         template: __webpack_require__("../../../../../src/app/app.component.html"),
-        styles: [__webpack_require__("../../../../../src/app/app.component.scss")]
+        styles: [__webpack_require__("../../../../../src/app/app.component.scss")],
+        host: {
+            '(window:resize)': 'onResize($event)'
+        }
     })
 ], AppComponent);
 

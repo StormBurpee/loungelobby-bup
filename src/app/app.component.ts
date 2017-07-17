@@ -6,7 +6,10 @@ import { RouterModule, Routes } from '@angular/router';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
+  host: {
+    '(window:resize)': 'onResize($event)'
+  }
 })
 export class AppComponent implements OnInit {
   title = 'LoungeLobby';
@@ -24,5 +27,17 @@ export class AppComponent implements OnInit {
         this.menuMode = "side";
         this.opened = "true;"
     }
+  }
+
+  onResize(event) {
+    this.width = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+    if (this.width <= 600) {
+        this.menuMode = "push";
+        this.opened = "false";
+    } else {
+        this.menuMode = "side";
+        this.opened = "true;"
+    }
+    console.log("resize :)");
   }
 }
