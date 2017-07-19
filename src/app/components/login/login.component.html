@@ -1,1 +1,21 @@
-This is the login page
+<div class="ll-form-container login">
+  <md-card class="login-card ll-form-card">
+    <md-card-header>
+      <md-card-title class="ll-form-title">Login</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <div class="ll-form-form">
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Username" type="text" name="username" class="ll-username" #user>
+        </md-input-container>
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Password" type="password" name="password" class="ll-password" #pass>
+        </md-input-container>
+        <div class="button-row">
+          <button md-raised-button color="primary" (click)="doLogin(user.value, pass.value)">Log In</button>
+          <a md-button  routerLink="/register" routerLinkActive="active">Or Register</a>
+        </div>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

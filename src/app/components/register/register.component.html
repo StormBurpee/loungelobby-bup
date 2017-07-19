@@ -1,3 +1,24 @@
-<p>
-  register works!
-</p>
+<div class="ll-form-container register">
+  <md-card class="register-card ll-form-card">
+    <md-card-header>
+      <md-card-title class="ll-form-title">Register</md-card-title>
+    </md-card-header>
+    <md-card-content>
+      <div class="ll-form-form">
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Email" type="text" name="email" class="ll-email">
+        </md-input-container>
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Username" type="text" name="username" class="ll-username">
+        </md-input-container>
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Password" type="password" name="password" class="ll-password">
+        </md-input-container>
+        <div class="button-row">
+          <button md-raised-button color="primary">Register</button>
+          <a md-button routerLink="/login" routerLinkActive="active">Or Login</a>
+        </div>
+      </div>
+    </md-card-content>
+  </md-card>
+</div>

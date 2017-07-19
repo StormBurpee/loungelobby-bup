@@ -10,9 +10,13 @@
     </ul>
   </div>
   <div class="sidebar-footer">
-    <ul>
+    <ul *ngIf="loggedIn == false">
       <li><a routerLink="/login" routerLinkActive="active">Login</a></li>
       <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
+    </ul>
+    <ul *ngIf="loggedIn == true">
+      <li><a routerLink="/login" routerLinkActive="active">My Account</a></li>
+      <li><a routerLink="/register" routerLinkActive="active">Logout</a></li>
     </ul>
   </div>
 </div>

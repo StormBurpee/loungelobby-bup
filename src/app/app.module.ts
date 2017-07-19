@@ -3,6 +3,8 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpModule } from '@angular/http';
 
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import { FlexLayoutModule } from "@angular/flex-layout";
 import { SlickModule } from 'ngx-slick';
 
@@ -19,13 +21,21 @@ import { RegisterComponent } from './components/register/register.component';
 import { AccountComponent } from './components/account/account.component';
 import { ShowComponent } from './components/show/show.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
+import { WatchComponent } from './components/watch/watch.component';
+
+
+import { VgCoreModule} from 'videogular2/core';
+import { VgControlsModule} from 'videogular2/controls';
+import { VgOverlayPlayModule} from 'videogular2/overlay-play';
+import { VgBufferingModule} from 'videogular2/buffering';
 
 const appRoutes: Routes = [
   { path: "", component: IndexComponent },
   { path: "login", component: LoginComponent },
   { path: "register", component: RegisterComponent },
   { path: "account/:id", component: AccountComponent },
-  { path: "show/:id", component: ShowComponent }
+  { path: "show/:id", component: ShowComponent },
+  { path: "watch/:id/:season/:episode", component: WatchComponent }
 ];
 
 @NgModule({
@@ -38,13 +48,19 @@ const appRoutes: Routes = [
     RegisterComponent,
     AccountComponent,
     ShowComponent,
-    SidebarComponent
+    SidebarComponent,
+    WatchComponent
   ],
   imports: [
     BrowserModule,
     MaterialModule,
     HttpModule,
     FlexLayoutModule,
+    BrowserAnimationsModule,
+    VgCoreModule,
+    VgControlsModule,
+    VgOverlayPlayModule,
+    VgBufferingModule,
     SlickModule.forRoot(),
     RouterModule.forRoot(
       appRoutes,

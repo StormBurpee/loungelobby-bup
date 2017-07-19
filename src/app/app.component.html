@@ -1,9 +1,10 @@
 <md-sidenav-container #wrapper class="ll-container">
   <md-sidenav #sidenav class="ll-sidenav" md-is-locked-open="false" mode="{{menuMode}}" [opened]="opened">
-    <app-sidebar></app-sidebar>
+    <app-sidebar [loggedIn]="loggedIn"></app-sidebar>
   </md-sidenav>
   <app-header (navToggle)="sidenav.toggle()" class="ll-h-c"></app-header>
   <div class="ll-body">
+    <div style="margin-top: 64px;"  fxHide.lt-sm="false" fxHide.gt-sm="true" fxHide></div>
     <router-outlet></router-outlet>
   </div>
 </md-sidenav-container>

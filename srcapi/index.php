@@ -145,6 +145,8 @@
     ));
     $resp = json_decode(curl_exec($curl));
     curl_close($curl);
+    $resp->poster_path = $this->img."/w500".$resp->poster_path;
+    $resp->backdrop_path = $this->img."/w1280".$resp->backdrop_path;
     //$response->getBody()->write(json_encode($resp));
     $nr = $response->withJson($resp);
     return $nr;
@@ -162,6 +164,49 @@
     curl_close($curl);
     //$response->getBody()->write(json_encode($resp));
     $nr = $response->withJson(["name"=>$resp->original_name]);
+    return $nr;
+  });
+
+  $app->get("/show/{showid}/episodes/{seasoncount}", function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $seasoncount = $request->getAttribute('seasoncount');
+    $seasonstring = "";
+    $seasons = [];
+    for($i = 1; $i <= $seasoncount; $i++) {
+      $seasons[] = "season/".$i;
+    }
+    $seasonstring = join(",", $seasons);
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/tv/$showid?api_key=d7d64233b06969210ff543eb263f7798&language=en&append_to_response=$seasonstring",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = json_decode(curl_exec($curl), true);
+    curl_close($curl);
+    $ss = ["img_path"=>$this->img."/w500", "seasons" => []];
+
+    for($i = 1; $i <= $seasoncount; $i++) {
+      $resp["season/$i"]["episodes"] = array_reverse($resp["season/$i"]["episodes"]);
+      $ss["seasons"][] = $resp["season/$i"];
+    }
+
+    $ss["seasons"] = array_reverse($ss["seasons"]);
+
+    $nse = json_decode(json_encode($ss));
+
+    foreach($nse->seasons as $season) {
+      foreach($season->episodes as $episode) {
+        if($episode->air_date > date("Y-m-d")) {
+          $episode->showep = false;
+        } else {
+          $episode->showep = true;
+        }
+      }
+    }
+
+    $nr = $response->withJson($nse);
     return $nr;
   });
 
@@ -390,7 +435,9 @@
 			$eplinks[] = $vl;
 		}
 
-    $response = $response->withJson($eplinks);
+    $vl = ["link"=>$eplinks[0]];
+
+    $response = $response->withJson($vl);
 
     return $response;
   });
@@ -430,6 +477,45 @@
     return $response;
   });
 
+  $app->get('/user/me', function(Request $request, Response $response) {
+    /*userid: number;
+    username: string;
+    usershows: object;
+    friends: object;
+    exp: number;
+    level: number;*/
+    $user = [
+      "userid" => 0,
+      "username" => "Guest",
+      "usershows" => [],
+      "friends" => [],
+      "exp" => 0,
+      "level" => 0
+    ];
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $getuser = $this->mysqli->query("SELECT * FROM users WHERE id=".$userauth->userid);
+          if($getuser && $getuser->num_rows > 0) {
+            while($u = $getuser->fetch_object()) {
+              $shows = [];
+              $friends = [];
+              $user["userid"] = $u->id;
+              $user["username"] = $u->username;
+              $user["usershows"] = $shows;
+              $user["friends"] = $friends;
+              $user["exp"] = $u->exp;
+              $user["level"] = floor(0.25 * sqrt($u->exp));
+            }
+          }
+        }
+      }
+    }
+    $response = $response->withJson($user);
+    return $response;
+  });
+
   $app->post('/user/login', function(Request $request, Response $response) {
     $data   = $request->getParsedBody();
 
@@ -448,8 +534,8 @@
       return $response;
     }
 
-    $user   = $this->mysqli_escape_string($data['u']);
-    $pass   = $this->mysqli_escape_string($data['p']);
+    $user   = $this->mysqli->escape_string($data['u']);
+    $pass   = $this->mysqli->escape_string($data['p']);
 
     $userlookup = $this->mysqli->query("SELECT * FROM users WHERE username='$user'");
     if($userlookup && $userlookup->num_rows > 0) {
@@ -502,12 +588,12 @@
       return $response;
     }
 
-    $user   = $this->mysqli_escape_string($data['u']);
-    $pass   = password_hash($this->mysqli_escape_string($data['p']), PASSWORD_DEFAULT);
-    $email  = $this->mysqli_escape_string($data['e']);
+    $user   = $this->mysqli->escape_string($data['u']);
+    $pass   = password_hash($this->mysqli->escape_string($data['p']), PASSWORD_DEFAULT);
+    $email  = $this->mysqli->escape_string($data['e']);
     $ref = "";
     if(isset($data['r']))
-      $ref    = $this->mysqli_escape_string($data['r']);
+      $ref    = $this->mysqli->escape_string($data['r']);
     $usercheck = $this->mysqli->query("SELECT * FROM users WHERE username='$user'");
 
     if($usercheck->num_rows > 0) {
@@ -533,6 +619,50 @@
       setcookie("loggedin","",time()-1, "/");
       setcookie("userauth", "", time()-1, "/");
     }
+  });
+
+  $app->get("/myshows/{showid}", function(Request $request, Response $response) {
+    $userid = 0;
+    $showid = $request->getAttribute('showid');
+    $myshow = false;
+    $userauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+    if($userauth && $userauth->num_rows > 0) {
+      while ($auth = $userauth->fetch_object()) {
+        $userid = $auth->userid;
+      }
+    }
+    $showquery = $this->mysqli->query("SELECT * FROM myshows WHERE userid=$userid AND showid=$showid");
+    if($showquery && $showquery->num_rows > 0) {
+      $myshow = true;
+    }
+    $response = $response->withJson(["myshow"=>$myshow]);
+    return $response;
+  });
+
+  $app->get("/myshows/add/{showid}", function(Request $request, Response $response) {
+    $userid = 0;
+    $showid = $request->getAttribute('showid');
+    $userauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+    if($userauth && $userauth->num_rows > 0) {
+      while ($auth = $userauth->fetch_object()) {
+        $userid = $auth->userid;
+      }
+    }
+    $showquery = $this->mysqli->query("INSERT INTO myshows (userid, showid) VALUES ($userid, $showid)");
+    return $response;
+  });
+
+  $app->get("/myshows/remove/{showid}", function(Request $request, Response $response) {
+    $userid = 0;
+    $showid = $request->getAttribute('showid');
+    $userauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+    if($userauth && $userauth->num_rows > 0) {
+      while ($auth = $userauth->fetch_object()) {
+        $userid = $auth->userid;
+      }
+    }
+    $showquery = $this->mysqli->query("DELETE FROM myshows WHERE userid=$userid AND showid=$showid");
+    return $response;
   });
 
   $app->run();

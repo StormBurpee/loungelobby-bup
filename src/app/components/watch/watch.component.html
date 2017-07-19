@@ -1,0 +1,14 @@
+<div class="ll-watch-container" *ngIf="videosrc">
+  <md-card>
+    <div md-card-image class="ll-video-player">
+      <vg-player>
+          <video [vgMedia]="media" #media id="singleVideo" preload="auto" controls>
+              <source src="{{videosrc.link}}" type="video/mp4">
+          </video>
+      </vg-player>
+    </div>
+    <md-card-actions>
+      <a md-button routerLink="/show/{{showId}}" routerLinkActive="active">Return to Show Page</a>
+    </md-card-actions>
+  </md-card>
+</div>

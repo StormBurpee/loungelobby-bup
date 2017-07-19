@@ -1,3 +1,43 @@
-<p>
-  show works!
-</p>
+<div class="show-container" *ngIf="episodes">
+  <div class="show-header-container" style="">
+    <img src="{{show.backdrop_path}}">
+    <div class="show-information">
+      <span class="show-exp" *ngIf="loggedIn == true">15exp per episode</span>
+      <h1 class="show-name">{{show.name}}</h1>
+      <span class="show-season-count">{{show.number_of_seasons}} seasons / {{show.episode_run_time[0]}} minute runtime</span>
+      <div class="show-genres">
+        {{show.vote_average}}/10 / Genre
+      </div>
+      <div class="show-summary">
+        {{show.overview}}
+      </div>
+      <div class="show-watch">
+
+      </div>
+      <div class="show-add" *ngIf="loggedIn == true">
+        <a md-raised-button color="primary">Add To My Shows</a>
+      </div>
+    </div>
+  </div>
+  <div class="episode-selection">
+    <div class="show-season-container" *ngFor="let season of episodes.seasons">
+      <h3>Season {{season.season_number}}</h3>
+      <div fxLayout="row" fxLayoutGap="0px" fxLayoutWrap>
+        <ng-container *ngFor="let episode of season.episodes">
+          <div fxFlex="25%" fxFlex.lt-md="33%" class="show-episode-container" *ngIf="episode.showep == true">
+            <md-card>
+              <img md-card-image src="{{episodes.img_path}}{{episode.still_path}}">
+              <md-card-content class="show-episode-info">
+                <h4>Episode {{episode.episode_number}}</h4>
+                <span>{{episode.name}}</span>
+              </md-card-content>
+              <md-card-actions>
+                <a md-button routerLink="/watch/{{show.id}}/{{season.season_number}}/{{episode.episode_number}}" routerLinkActive="active">Watch Episode</a>
+              </md-card-actions>
+            </md-card>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>
