@@ -220,6 +220,9 @@
     ));
     $resp = json_decode(curl_exec($curl));
     curl_close($curl);
+    //miscellanious show fixes
+    if($resp->original_name == "Madam Secretary")
+      $resp->original_name = "Madame Secretary";
     //$response->getBody()->write(json_encode($resp));
     $nr = $response->withJson(["name"=>$resp->original_name, "year"=>date("Y", strtotime($resp->first_air_date))]);
     return $nr;
@@ -442,6 +445,22 @@
     return $response;
   });
 
+  $app->get('/search/{term}', function(Request $request, Response $response){
+    $term = rawurlencode($request->getAttribute('term'));
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => "https://api.themoviedb.org/3/search/tv?api_key=d7d64233b06969210ff543eb263f7798&language=en&query=$term",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = json_decode(curl_exec($curl));
+    curl_close($curl);
+    //$response->getBody()->write(json_encode($resp));
+    $nr = $response->withJson($resp);
+    return $nr;
+
+  });
+
   $app->get('/', function(Request $request, Response $response){
     $response->getBody()->write("LoungeLobby API v4");
 
@@ -662,6 +681,18 @@
       }
     }
     $showquery = $this->mysqli->query("DELETE FROM myshows WHERE userid=$userid AND showid=$showid");
+    return $response;
+  });
+
+  $app->get("/allroutes", function(Request $request, Response $response) {
+    $routes = $this->router->getRoutes();
+    // And then iterate over $routes
+    $rt = [];
+    foreach ($routes as $route) {
+        $rt[] = $route->getPattern();
+    }
+
+    $response = $response->withJson($rt);
     return $response;
   });
 

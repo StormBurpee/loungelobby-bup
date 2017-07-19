@@ -852,7 +852,7 @@ SidebarComponent = __decorate([
 /***/ "../../../../../src/app/components/watch/watch.component.html":
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"ll-watch-container\" *ngIf=\"videosrc\">\n  <md-card>\n    <div md-card-image class=\"ll-video-player\">\n      <vg-player>\n          <video [vgMedia]=\"media\" #media id=\"singleVideo\" preload=\"auto\" controls>\n              <source src=\"{{videosrc.link}}\" type=\"video/mp4\">\n          </video>\n      </vg-player>\n    </div>\n    <md-card-actions>\n      <a md-button routerLink=\"/show/{{showId}}\" routerLinkActive=\"active\">Return to Show Page</a>\n    </md-card-actions>\n  </md-card>\n</div>\n"
+module.exports = "<div class=\"ll-watch-container\" *ngIf=\"videosrc\">\n  <md-card>\n    <div md-card-image class=\"ll-video-player\">\n      <vg-player>\n        <vg-overlay-play></vg-overlay-play>\n        <vg-buffering></vg-buffering>\n\n        <vg-scrub-bar>\n            <vg-scrub-bar-current-time [vgSlider]=\"true\"></vg-scrub-bar-current-time>\n            <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>\n        </vg-scrub-bar>\n\n        <vg-controls>\n            <vg-play-pause></vg-play-pause>\n\n            <vg-time-display vgProperty=\"current\" vgFormat=\"mm:ss\"></vg-time-display>\n\n            <vg-scrub-bar style=\"pointer-events: none;\"></vg-scrub-bar>\n\n            <vg-time-display vgProperty=\"left\" vgFormat=\"mm:ss\"></vg-time-display>\n            <vg-time-display vgProperty=\"total\" vgFormat=\"mm:ss\"></vg-time-display>\n\n            <vg-mute></vg-mute>\n            <vg-volume></vg-volume>\n\n            <vg-fullscreen></vg-fullscreen>\n        </vg-controls>\n        <video [vgMedia]=\"media\" #media id=\"singleVideo\" preload=\"auto\" crossorigin>\n            <source src=\"{{videosrc.link}}\" type=\"video/mp4\">\n        </video>\n      </vg-player>\n    </div>\n    <md-card-actions>\n      <a md-button routerLink=\"/show/{{showId}}\" routerLinkActive=\"active\">Return to Show Page</a>\n    </md-card-actions>\n  </md-card>\n</div>\n"
 
 /***/ }),
 
@@ -864,7 +864,7 @@ exports = module.exports = __webpack_require__("../../../../css-loader/lib/css-b
 
 
 // module
-exports.push([module.i, ".ll-watch-container {\n  position: absolute;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  height: auto;\n  -webkit-font-smoothing: antialiased; }\n  .ll-watch-container video {\n    width: 100%;\n    height: calc(100% * 9); }\n", ""]);
+exports.push([module.i, ".ll-watch-container {\n  position: absolute;\n  -webkit-transform: translate(-50%, -50%);\n          transform: translate(-50%, -50%);\n  top: 50%;\n  left: 50%;\n  width: 80%;\n  height: auto;\n  -webkit-font-smoothing: antialiased; }\n  .ll-watch-container video {\n    width: 100%;\n    height: calc(100% * 9); }\n\n.native-fullscreen video {\n  width: 100% !important;\n  height: auto !important; }\n", ""]);
 
 // exports
 
@@ -1193,7 +1193,7 @@ __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1__angular_platform_browser_dyna
 
 /***/ }),
 
-/***/ 0:
+/***/ 1:
 /***/ (function(module, exports, __webpack_require__) {
 
 module.exports = __webpack_require__("../../../../../src/main.ts");
@@ -1201,4 +1201,4 @@ module.exports = __webpack_require__("../../../../../src/main.ts");
 
 /***/ })
 
-},[0]);
+},[1]);

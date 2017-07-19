@@ -12,3 +12,9 @@
     height: calc(100% * 9);
   }
 }
+.native-fullscreen {
+  video {
+    width: 100%!important;
+    height: auto!important;
+  }
+}
