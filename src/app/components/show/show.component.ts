@@ -7,7 +7,7 @@ import { UserService } from '../../services/user/user.service';
 
 import { ActivatedRoute } from '@angular/router';
 
-import { MdButtonModule, MdCardModule } from '@angular/material';
+import { MdButtonModule, MdCardModule, MdProgressSpinnerModule } from '@angular/material';
 
 @Component({
   selector: 'app-show',

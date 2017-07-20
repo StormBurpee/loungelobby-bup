@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { MdCardModule, MdInputModule, MdButtonModule } from '@angular/material';
+import { MdCardModule, MdInputModule, MdButtonModule, MdProgressSpinnerModule } from '@angular/material';
 
 import { User, UserStatus } from '../../classes/user/user';
 import { UserService } from '../../services/user/user.service';
@@ -14,6 +14,9 @@ export class LoginComponent implements OnInit {
 
   private errorMessage: string;
   private loginResult;
+
+  private loginError;
+  private loginMessage;
 
   constructor( private userService: UserService ) { }
 
@@ -32,6 +35,10 @@ export class LoginComponent implements OnInit {
   processLogin() {
     if(this.loginResult.error && this.loginResult.error == true) {
       console.log(this.loginResult);
+      this.loginError = true;
+      this.loginMessage = this.loginResult.errormessage;
+    } else {
+      window.location.href = "/";
     }
   }
 

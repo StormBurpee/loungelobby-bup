@@ -1,5 +1,8 @@
+<div class="loading-container" *ngIf="!featured">
+  <md-spinner></md-spinner>
+</div>
 <!-- featured -->
-<div class="ll-home-slide featured">
+<div class="ll-home-slide featured" *ngIf="featured">
   <div class="ll-slide-header">
     LoungeLobby's Featured Shows
   </div>
@@ -17,7 +20,7 @@
 </div>
 
 <!-- recently added -->
-<div class="ll-home-slide">
+<div class="ll-home-slide" *ngIf="airing">
   <div class="ll-slide-header">
     Recently Added
   </div>

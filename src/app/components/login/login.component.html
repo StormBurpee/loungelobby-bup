@@ -11,6 +11,9 @@
         <md-input-container class="ll-form-input">
           <input mdInput placeholder="Password" type="password" name="password" class="ll-password" #pass>
         </md-input-container>
+        <div class="warning-row" style="margin-bottom: 10px; color: #E53935" *ngIf="loginError">
+          {{loginMessage}}
+        </div>
         <div class="button-row">
           <button md-raised-button color="primary" (click)="doLogin(user.value, pass.value)">Log In</button>
           <a md-button  routerLink="/register" routerLinkActive="active">Or Register</a>

@@ -1,3 +1,6 @@
+<div class="loading-container" *ngIf="!videosrc">
+  <md-spinner></md-spinner>
+</div>
 <div class="ll-watch-container" *ngIf="videosrc">
   <md-card>
     <div md-card-image class="ll-video-player">
@@ -10,7 +13,7 @@
             <vg-scrub-bar-buffering-time></vg-scrub-bar-buffering-time>
         </vg-scrub-bar>
 
-        <vg-controls>
+        <vg-controls [vgAutohide]="true" [vgAutohideTime]="3">
             <vg-play-pause></vg-play-pause>
 
             <vg-time-display vgProperty="current" vgFormat="mm:ss"></vg-time-display>

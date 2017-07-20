@@ -5,7 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { EpisodeLink } from '../../classes/show/show';
 import { ShowService } from '../../services/show/show.service';
 
-import { MdButtonModule, MdCardModule } from '@angular/material';
+import { MdButtonModule, MdCardModule, MdProgressSpinnerModule } from '@angular/material';
 
 @Component({
   selector: 'app-watch',

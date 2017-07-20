@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Trending } from '../../classes/trending/trending';
 import { TrendingService } from '../../services/trending/trending.service';
-import { MdGridListModule } from '@angular/material';
+import { MdGridListModule, MdProgressSpinnerModule } from '@angular/material';
 import { MdCardModule } from '@angular/material';
 
 @Component({
