@@ -22,12 +22,14 @@ import { AccountComponent } from './components/account/account.component';
 import { ShowComponent } from './components/show/show.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { WatchComponent } from './components/watch/watch.component';
+import { MyshowsComponent } from './components/myshows/myshows.component';
 
 
 import { VgCoreModule} from 'videogular2/core';
 import { VgControlsModule} from 'videogular2/controls';
 import { VgOverlayPlayModule} from 'videogular2/overlay-play';
 import { VgBufferingModule} from 'videogular2/buffering';
+import { SearchComponent } from './components/search/search.component';
 
 const appRoutes: Routes = [
   { path: "", component: IndexComponent },
@@ -35,7 +37,9 @@ const appRoutes: Routes = [
   { path: "register", component: RegisterComponent },
   { path: "account/:id", component: AccountComponent },
   { path: "show/:id", component: ShowComponent },
-  { path: "watch/:id/:season/:episode", component: WatchComponent }
+  { path: "watch/:id/:season/:episode", component: WatchComponent },
+  { path: "myshows", component: MyshowsComponent },
+  { path: "search", component: SearchComponent }
 ];
 
 @NgModule({
@@ -49,7 +53,9 @@ const appRoutes: Routes = [
     AccountComponent,
     ShowComponent,
     SidebarComponent,
-    WatchComponent
+    WatchComponent,
+    MyshowsComponent,
+    SearchComponent
   ],
   imports: [
     BrowserModule,

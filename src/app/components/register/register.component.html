@@ -6,16 +6,19 @@
     <md-card-content>
       <div class="ll-form-form">
         <md-input-container class="ll-form-input">
-          <input mdInput placeholder="Email" type="text" name="email" class="ll-email">
+          <input mdInput placeholder="Email" type="text" name="email" class="ll-email" #email (keyup)="keyup($event, user.value, pass.value, email.value)">
         </md-input-container>
         <md-input-container class="ll-form-input">
-          <input mdInput placeholder="Username" type="text" name="username" class="ll-username">
+          <input mdInput placeholder="Username" type="text" name="username" class="ll-username" #user (keyup)="keyup($event, user.value, pass.value, email.value)">
         </md-input-container>
         <md-input-container class="ll-form-input">
-          <input mdInput placeholder="Password" type="password" name="password" class="ll-password">
+          <input mdInput placeholder="Password" type="password" name="password" class="ll-password" #pass (keyup)="keyup($event, user.value, pass.value, email.value)">
         </md-input-container>
+        <div class="warning-row" style="margin-bottom: 10px; color: #E53935" *ngIf="loginError">
+          {{loginMessage}}
+        </div>
         <div class="button-row">
-          <button md-raised-button color="primary">Register</button>
+          <button md-raised-button color="primary" (click)="doLogin(user.value, pass.value, email.value)">Register</button>
           <a md-button routerLink="/login" routerLinkActive="active">Or Login</a>
         </div>
       </div>

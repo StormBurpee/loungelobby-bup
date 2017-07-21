@@ -5,8 +5,13 @@
   <div class="sidebar-navigation">
     <ul>
       <li><a routerLink="/" routerLinkActive="active">Home</a></li>
-      <li><a href="#!">Discover</a></li>
-      <li><a href="#!">Popular</a></li>
+      <li><a routerLink="/search" routerLinkActive="active">Search</a></li>
+      <li *ngIf="popular"><a href="#!">Popular</a></li>
+      <li><a routerLink="/myshows" routerLinkActive="active" *ngIf="loggedIn == true">My Shows</a></li>
+      <li class="divider"></li>
+      <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QD3KQAJYLZSL2" target="_blank">Donate</a></li>
+      <li><a href="https://www.patreon.com/loungelobby" target="_blank">Donate Monthly</a></li>
+      <li><a href="https://www.facebook.com/loungelobby/" target="_blank">Facebook</a></li>
     </ul>
   </div>
   <div class="sidebar-footer">
@@ -15,8 +20,8 @@
       <li><a routerLink="/register" routerLinkActive="active">Register</a></li>
     </ul>
     <ul *ngIf="loggedIn == true">
-      <li><a routerLink="/login" routerLinkActive="active">My Account</a></li>
-      <li><a routerLink="/register" routerLinkActive="active">Logout</a></li>
+      <li><a routerLink="/." routerLinkActive="active">My Account (Coming Soon)</a></li>
+      <li><a (click)="logout()" routerLink="." routerLinkActive="active">Logout</a></li>
     </ul>
   </div>
 </div>

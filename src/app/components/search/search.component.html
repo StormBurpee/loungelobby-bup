@@ -1,0 +1,25 @@
+<div class="search-content">
+  <h2>Search</h2>
+  <div class="search-header">
+    <md-card>
+      <md-card-content>
+        <md-input-container class="ll-form-input">
+          <input mdInput placeholder="Enter search term here" type="text" name="search" class="ll-search" #search (keyup)="searchChanged(search.value)">
+        </md-input-container>
+      </md-card-content>
+    </md-card>
+  </div>
+  <div class="results show-season-container" fxLayout="row" fxLayoutGap="0px" fxLayoutWrap *ngIf="searchResults">
+    <div fxFlex="25%" fxFlex.lt-md="33%" class="show-episode-container" *ngFor="let show of searchResults">
+      <md-card>
+        <img md-card-image src="https://image.tmdb.org/t/p/w1280{{show.backdrop_path}}">
+        <md-card-content class="show-episode-info">
+          <h4>{{show.name}}</h4>
+        </md-card-content>
+        <md-card-actions>
+          <a md-button routerLink="/show/{{show.id}}" routerLinkActive="active">Goto Show</a>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,33 @@
+.myShows {
+  h2 {
+    padding: 0px 10px;
+  }
+}
+.show-season-container {
+  padding: 15px;
+
+  & h3 {
+    margin: 0;
+  }
+
+  & .show-episode-container {
+    padding: 0px 10px;
+    margin-top: 10px;
+
+    h4 {
+      margin: 0;
+      padding: 0;
+    }
+
+    & .show-episode-image {
+       & img {
+         width: 100%;
+         height: auto;
+       }
+    }
+
+    & .show-episode-info {
+
+    }
+  }
+}

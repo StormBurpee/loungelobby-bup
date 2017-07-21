@@ -68,4 +68,22 @@ export class ShowComponent implements OnInit {
     }
   }
 
+  addShow() {
+    if(this.loggedIn) {
+      this.showService.addMyShow(this.showId).subscribe(
+        myShow => this.myShow = myShow.myshow,
+        error => this.errorMessage = <any>error
+      );
+    }
+  }
+
+  removeShow() {
+    if(this.loggedIn) {
+      this.showService.removeMyShow(this.showId).subscribe(
+        myShow => this.myShow = myShow.myshow,
+        error => this.errorMessage = <any>error
+      );
+    }
+  }
+
 }

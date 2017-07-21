@@ -489,9 +489,10 @@
 
   $app->get('/user/loggedin', function(Request $request, Response $response) {
     $ul = ['loggedin'=>false];
-    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
       $ul = ["loggedin"=>true];
     }
+
     $response = $response->withJson($ul);
     return $response;
   });
@@ -511,7 +512,7 @@
       "exp" => 0,
       "level" => 0
     ];
-    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
       $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
       if($getuserauth && $getuserauth->num_rows > 0) {
         while($userauth = $getuserauth->fetch_object()) {
@@ -520,6 +521,12 @@
             while($u = $getuser->fetch_object()) {
               $shows = [];
               $friends = [];
+              $showlookup = $this->mysqli->query("SELECT * FROM myshows WHERE userid=".$u->id);
+              if($showlookup && $showlookup->num_rows > 0) {
+                while($s = $showlookup->fetch_object()) {
+                  $shows[] = $s->showid;
+                }
+              }
               $user["userid"] = $u->id;
               $user["username"] = $u->username;
               $user["usershows"] = $shows;
@@ -565,7 +572,7 @@
           setcookie("userauth", "$authuser", time()+60*60*24*30, "/");
           $userid = $u->id;
           $this->mysqli->query("INSERT INTO auth_tokens (`userid`, `token`) VALUES ($userid, '$authuser')");
-          $ruser['loggedin'] = true;
+          $ruser['loggedin'] = 1;
           $ruser['userauth'] = $authuser;
         } else {
           $ruser['error'] = true;
@@ -615,7 +622,7 @@
       $ref    = $this->mysqli->escape_string($data['r']);
     $usercheck = $this->mysqli->query("SELECT * FROM users WHERE username='$user'");
 
-    if($usercheck->num_rows > 0) {
+    if($usercheck && $usercheck->num_rows > 0) {
       $ruser['error'] = true;
       $ruser['errorid'] = 1;
       $ruser['errormessage'] = "Username Taken!";
@@ -634,10 +641,71 @@
   });
 
   $app->get('/user/logout', function(Request $request, Response $response) {
-    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] === true) {
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
       setcookie("loggedin","",time()-1, "/");
       setcookie("userauth", "", time()-1, "/");
     }
+    $ul = ['loggedin'=>false];
+    $response = $response->withJson($ul);
+    return $response;
+  });
+
+  $app->get("/myshows", function(Request $request, Response $response) {
+
+    $shows = [];
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $getuser = $this->mysqli->query("SELECT * FROM users WHERE id=".$userauth->userid);
+          if($getuser && $getuser->num_rows > 0) {
+            while($u = $getuser->fetch_object()) {
+              $showlookup = $this->mysqli->query("SELECT * FROM myshows WHERE userid=".$u->id);
+              if($showlookup && $showlookup->num_rows > 0) {
+                while($s = $showlookup->fetch_object()) {
+                  $shows[] = $s->showid;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    $response = $response->withJson($shows);
+    return $response;
+  });
+
+  $app->get("/myshows/desc", function(Request $request, Response $response) {
+    $shows = [];
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $getuser = $this->mysqli->query("SELECT * FROM users WHERE id=".$userauth->userid);
+          if($getuser && $getuser->num_rows > 0) {
+            while($u = $getuser->fetch_object()) {
+              $showlookup = $this->mysqli->query("SELECT * FROM myshows WHERE userid=".$u->id);
+              if($showlookup && $showlookup->num_rows > 0) {
+                while($s = $showlookup->fetch_object()) {
+                  $url = $this->url;
+                  $curl = curl_init();
+                  curl_setopt_array($curl, array(
+                      CURLOPT_RETURNTRANSFER => 1,
+                      CURLOPT_URL => $url."/api/show/".$s->showid,
+                      CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+                  ));
+                  $resp = json_decode(curl_exec($curl));
+                  curl_close($curl);
+                  $shows[] = $resp;
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+    $response = $response->withJson($shows);
+    return $response;
   });
 
   $app->get("/myshows/{showid}", function(Request $request, Response $response) {
@@ -668,6 +736,7 @@
       }
     }
     $showquery = $this->mysqli->query("INSERT INTO myshows (userid, showid) VALUES ($userid, $showid)");
+    $response = $response->withJson(["myshow"=>true]);
     return $response;
   });
 
@@ -681,6 +750,7 @@
       }
     }
     $showquery = $this->mysqli->query("DELETE FROM myshows WHERE userid=$userid AND showid=$showid");
+    $response = $response->withJson(["myshow"=>false]);
     return $response;
   });
 

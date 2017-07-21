@@ -22,6 +22,22 @@ export class ShowService {
     return this.http.get("/api/myshows/"+id).map(this.extractData).catch(this.handleError);
   }
 
+  addMyShow(id): Observable<MyShow> {
+    return this.http.get("/api/myshows/add/"+id).map(this.extractData).catch(this.handleError);
+  }
+
+  removeMyShow(id): Observable<MyShow> {
+    return this.http.get("/api/myshows/remove/"+id).map(this.extractData).catch(this.handleError);
+  }
+
+  getMyShows(): Observable<Show[]> {
+    return this.http.get("/api/myshows/desc").map(this.extractData).catch(this.handleError);
+  }
+
+  search(term): Observable<any> {
+    return this.http.get("/api/search/"+term).map(this.extractData).catch(this.handleError);
+  }
+
   getEpisodes(id, seasoncount): Observable<Episodes> {
     return this.http.get("/api/show/"+id+"/episodes/"+seasoncount).map(this.extractData).catch(this.handleError);
   }

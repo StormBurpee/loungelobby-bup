@@ -29,7 +29,7 @@ export class UserService {
   }
 
   register(username, password, email): Observable<object> {
-    return this.http.post(this.links.login, {u: username, p: password, e: email}).map(this.extractData).catch(this.handleError);;
+    return this.http.post(this.links.register, {u: username, p: password, e: email}).map(this.extractData).catch(this.handleError);;
   }
 
   logout(): Observable<UserStatus> {

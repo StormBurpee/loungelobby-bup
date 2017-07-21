@@ -6,10 +6,10 @@
     <md-card-content>
       <div class="ll-form-form">
         <md-input-container class="ll-form-input">
-          <input mdInput placeholder="Username" type="text" name="username" class="ll-username" #user>
+          <input mdInput placeholder="Username" type="text" name="username" class="ll-username" #user (keyup)="keyup($event, user.value, pass.value)">
         </md-input-container>
         <md-input-container class="ll-form-input">
-          <input mdInput placeholder="Password" type="password" name="password" class="ll-password" #pass>
+          <input mdInput placeholder="Password" type="password" name="password" class="ll-password" #pass (keyup)="keyup($event, user.value, pass.value)">
         </md-input-container>
         <div class="warning-row" style="margin-bottom: 10px; color: #E53935" *ngIf="loginError">
           {{loginMessage}}

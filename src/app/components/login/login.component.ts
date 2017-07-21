@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
 
   doLogin(user, password) {
     this.userService.login(user, password).subscribe(
-      user => this.loginResult = user,
+      uR => this.loginResult = uR,
       error => this.errorMessage = <any>error,
       () => this.processLogin()
     );
@@ -39,6 +39,12 @@ export class LoginComponent implements OnInit {
       this.loginMessage = this.loginResult.errormessage;
     } else {
       window.location.href = "/";
+    }
+  }
+
+  keyup(event: any, u, p) {
+    if(event.keyCode == 13) {
+      this.doLogin(u, p);
     }
   }
 

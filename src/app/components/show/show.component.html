@@ -18,7 +18,8 @@
 
       </div>
       <div class="show-add" *ngIf="loggedIn == true">
-        <a md-raised-button color="primary">Add To My Shows</a>
+        <a md-raised-button color="primary" *ngIf="myShow == false" (click)="addShow()">Add To My Shows</a>
+        <a md-raised-button color="warn" *ngIf="myShow == true" (click)="removeShow()">Remove From My Shows</a>
       </div>
     </div>
   </div>

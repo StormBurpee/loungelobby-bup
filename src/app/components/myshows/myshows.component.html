@@ -1,0 +1,20 @@
+<div class="loading-container" *ngIf="!myShows">
+  <md-spinner></md-spinner>
+</div>
+<div class="myShows show-season-container" *ngIf="myShows">
+  <h2>My Shows</h2>
+  <div fxLayout="row" fxLayoutGap="0px" fxLayoutWrap>
+    <div fxFlex="25%" fxFlex.lt-md="33%" class="show-episode-container" *ngFor="let show of myShows">
+      <md-card>
+        <img md-card-image src="{{show.backdrop_path}}">
+        <md-card-content class="show-episode-info">
+          <h4>{{show.name}}</h4>
+        </md-card-content>
+        <md-card-actions>
+          <a md-button routerLink="/show/{{show.id}}" routerLinkActive="active">Goto Show</a>
+        </md-card-actions>
+      </md-card>
+    </div>
+  </div>
+
+</div>

@@ -45,6 +45,21 @@ a {
         position: relative;
         padding-bottom: 10px;
 
+        &.divider {
+          padding: 10px 0px;
+          &::before {
+            height: 2px;
+            width: 15px;
+            display: block;
+            content: ' ';
+            background-color: #ff851b;
+            position: absolute;
+            left: 30px;
+            top: 5px;
+            opacity: 1;
+          }
+        }
+
         & a {
           color: #1b1b1b;
         }
