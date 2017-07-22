@@ -46,6 +46,10 @@ export class ShowService {
     return this.http.get("/api/show/"+id+"/season/"+season+"/episode/"+episode+"/links").map(this.extractData).catch(this.handleError);
   }
 
+  getWatched(showid): Observable<any> {
+    return this.http.get("/api/show/"+showid+"/watched").map(this.extractData).catch(this.handleError);
+  }
+
   private extractData(res: Response) {
     let body = res.json();
     return body || { };

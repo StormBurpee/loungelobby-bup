@@ -11,8 +11,8 @@ import { UserService } from '../../services/user/user.service';
 })
 export class SidebarComponent implements OnInit {
 
-  private errorMessage: string;
-  private logoutResult: UserStatus;
+  errorMessage: string;
+  logoutResult: UserStatus;
 
   @Input()
   loggedIn: boolean;

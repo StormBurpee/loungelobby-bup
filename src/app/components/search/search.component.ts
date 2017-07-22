@@ -20,8 +20,8 @@ import 'rxjs/add/operator/switchMap';
 })
 export class SearchComponent implements OnInit {
 
-  private searchResults;
-  private errorMessage;
+  searchResults;
+  errorMessage;
 
   private searchSubject: Subject<any> = new Subject();
 

@@ -25,8 +25,9 @@ mphp:
 	cp *.php public/
 
 msrc:
-	#ng build --env=prod --prod --aot --no-sourcemap #Production
-	ng build --no-sourcemap #development
+	ng build --env=prod --prod --aot --no-sourcemap #Production
+	#ng build --env=prod --aot --no-sourcemap
+	#ng build --no-sourcemap #development
 	cp -r dist/* build/
 	#cp -r src/* build/
 

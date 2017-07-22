@@ -13,11 +13,11 @@ import { UserService } from '../../services/user/user.service';
 
 export class RegisterComponent implements OnInit {
 
-  private errorMessage: string;
-  private loginResult;
+  errorMessage: string;
+  loginResult;
 
-  private loginError;
-  private loginMessage;
+  loginError;
+  loginMessage;
 
   constructor( private userService: UserService ) { }
 

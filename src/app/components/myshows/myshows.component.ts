@@ -13,8 +13,8 @@ import { MdButtonModule, MdCardModule, MdProgressSpinnerModule } from '@angular/
 })
 export class MyshowsComponent implements OnInit {
 
-  private myShows: any;
-  private errorMessage;
+  myShows: any;
+  errorMessage;
 
   constructor( private showService: ShowService ) { }
 

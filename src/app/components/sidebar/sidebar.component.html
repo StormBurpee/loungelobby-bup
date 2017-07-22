@@ -6,7 +6,6 @@
     <ul>
       <li><a routerLink="/" routerLinkActive="active">Home</a></li>
       <li><a routerLink="/search" routerLinkActive="active">Search</a></li>
-      <li *ngIf="popular"><a href="#!">Popular</a></li>
       <li><a routerLink="/myshows" routerLinkActive="active" *ngIf="loggedIn == true">My Shows</a></li>
       <li class="divider"></li>
       <li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=QD3KQAJYLZSL2" target="_blank">Donate</a></li>

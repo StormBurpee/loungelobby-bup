@@ -15,12 +15,12 @@ import { MdButtonModule, MdCardModule, MdProgressSpinnerModule } from '@angular/
 })
 export class WatchComponent implements OnInit {
 
-  private errorMessage: string;
+  errorMessage: string;
 
-  private videosrc: EpisodeLink;
-  private showId;
-  private season;
-  private episode;
+  videosrc: EpisodeLink;
+  showId;
+  season;
+  episode;
 
   constructor( private showService: ShowService, private route:ActivatedRoute ) { }
 

@@ -15,6 +15,129 @@
   $config['db']['pass'] = "Harry13.";
   $config['db']['dbname'] = 'loungelobby';
 
+  $videolinks = json_decode(json_encode([
+    "gorillavid" => [
+        "apilink" => "gorillavid",
+        "searchlink" => "gorillavid.in",
+        "explodelink" => ".in/",
+        "embedlink" => "embed-",
+        "embedsize" => "-960x480.html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => false
+    ],
+    "daclips" => [
+        "apilink" => "daclips",
+        "searchlink" => "daclips.in",
+        "explodelink" => ".in/",
+        "embedlink" => "embed-",
+        "embedsize" => "-960x480.html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => false
+    ],
+    "movpod" => [
+        "apilink" => "movpod",
+        "searchlink" => "movpod.in",
+        "explodelink" => ".in/",
+        "embedlink" => "embed-",
+        "embedsize" => "-960x480.html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => false
+    ],
+    "vidabc" => [
+        "apilink" => "vidabc",
+        "searchlink" => "vidabc.com",
+        "explodelink" => ".com/",
+        "embedlink" => "embed-",
+        "embedsize" => "",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => true
+    ],
+    "vidtodo" => [
+        "apilink" => "vidtodo",
+        "searchlink" => "vidtodo.com",
+        "explodelink" => ".com/",
+        "embedlink" => "embed-",
+        "embedsize" => ".html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => true
+    ],
+    "speedvid" => [
+        "apilink" => "speedvid",
+        "searchlink" => "speedvid.net",
+        "explodelink" => ".net/",
+        "embedlink" => "embed-",
+        "embedsize" => "-640x360.html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => true
+    ],
+    "cloudtime" => [
+        "apilink" => "cloudtime",
+        "searchlink" => "cloudtime.to",
+        "explodelink" => ".to/video/",
+        "embedlink" => "embed-",
+        "embedsize" => ".html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => true
+    ],
+    "powvideo" => [
+        "apilink" => "powvideo",
+        "searchlink" => "powvideo.net",
+        "explodelink" => ".net/",
+        "embedlink" => "embed-",
+        "embedsize" => "-954x562.html",
+        "finderquery" => "//*[contains(@id, 'player_code')]",
+        "firstexplode" => 'sources: [{',
+        "explodes" => [
+          '}]',
+          "src: '",
+          "',"
+        ],
+        "playerembed" => true
+    ]
+  ]));
+
   $tvmaze = "http://api.tvmaze.com";
   $tmdb = "https://api.themoviedb.org/3";
   $tmdbAPI = "d7d64233b06969210ff543eb263f7798";
@@ -29,6 +152,7 @@
   $container['url'] = "http://theloungelobby.com";
   $container['img'] = $tmdbImage;
   $container['mysqli'] = new mysqli($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['dbname']);
+  $container['vl'] = $videolinks;
 
   $app->get('/featured', function (Request $request, Response $response) {
     $limit = 8;
@@ -177,6 +301,25 @@
     }
     $seasonstring = join(",", $seasons);
 
+    $userid = 0;
+    $watched = [];
+
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $userid = $userauth->userid;
+        }
+      }
+    }
+
+    $watchcheck = $this->mysqli->query("SELECT * FROM watched WHERE userid=$userid AND showid=$showid");
+    if($watchcheck && $watchcheck->num_rows > 0) {
+      while($w = $watchcheck->fetch_object()) {
+        $watched["s".$w->season."e".$w->episode] = "true";
+      }
+    }
+
     $curl = curl_init();
     curl_setopt_array($curl, array(
         CURLOPT_RETURNTRANSFER => 1,
@@ -198,6 +341,9 @@
 
     foreach($nse->seasons as $season) {
       foreach($season->episodes as $episode) {
+        if($watched['s'.$season->season_number.'e'.$episode->episode_number]) {
+          $episode->watched = true;
+        }
         if($episode->air_date > date("Y-m-d")) {
           $episode->showep = false;
         } else {
@@ -207,6 +353,31 @@
     }
 
     $nr = $response->withJson($nse);
+    return $nr;
+  });
+
+  $app->get("/show/{showid}/watched", function(Request $request, Response $response) {
+    $showid = $request->getAttribute('showid');
+    $userid = 0;
+    $watched = [];
+
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $userid = $userauth->userid;
+        }
+      }
+    }
+
+    $watchcheck = $this->mysqli->query("SELECT * FROM watched WHERE userid=$userid AND showid=$showid");
+    if($watchcheck && $watchcheck->num_rows > 0) {
+      while($w = $watchcheck->fetch_object()) {
+        $watched["s".$w->season."e".$w->episode] = "true";
+      }
+    }
+
+    $nr = $response->withJson($watched);
     return $nr;
   });
 
@@ -319,6 +490,21 @@
     $showid = $request->getAttribute('showid');
     $season = $request->getAttribute('season');
     $episode = $request->getAttribute('episode');
+
+    if(isset($_COOKIE['loggedin']) && $_COOKIE['loggedin'] == 1) {
+      $getuserauth = $this->mysqli->query("SELECT * FROM auth_tokens WHERE token='".$_COOKIE['userauth']."'");
+      if($getuserauth && $getuserauth->num_rows > 0) {
+        while($userauth = $getuserauth->fetch_object()) {
+          $userid = $userauth->userid;
+          $watchedcheck = $this->mysqli->query("SELECT * FROM watched WHERE userid=$userid AND showid=$showid AND season=$season AND episode=$episode");
+          if($watchedcheck && $watchedcheck->num_rows > 0) {
+
+          } else {
+            $this->mysqli->query("INSERT INTO watched (userid, showid, season, episode) VALUES ($userid, $showid, $season, $episode)");
+          }
+        }
+      }
+    }
 
     $curl = curl_init();
     curl_setopt_array($curl, array(
@@ -441,7 +627,6 @@
     $vl = ["link"=>$eplinks[0]];
 
     $response = $response->withJson($vl);
-
     return $response;
   });
 
@@ -764,6 +949,172 @@
 
     $response = $response->withJson($rt);
     return $response;
+  });
+
+  //video link follows
+  $app->get('/video/allhosts', function(Request $request, Response $response) {
+    $link = $this->vl;
+    $response = $response->withJson($link);
+    return $response;
+  });
+  $app->get('/video/{videohost}', function(Request $request, Response $response) {
+    $ll = $request->getAttribute('videohost');
+    $link = $this->vl->$ll;
+    if(!$link) {
+      $response = $response->withJson("Video Host Could Not Be Found!");
+      return $response;
+    }
+
+    $response = $response->withJson($link);
+    return $response;
+  });
+  $app->get("/video/{videohost}/{showid}/{season}/{episode}", function(Request $request, Response $response){
+    $ws = $this->ws;
+    $url = $this->url;
+    $ll = $request->getAttribute('videohost');
+    $link = $this->vl->$ll;
+    $showid = $request->getAttribute('showid');
+    $season = $request->getAttribute('season');
+    $episode = $request->getAttribute('episode');
+
+    if(!$link) {
+      $response = $response->withJson("Video Host Could Not Be Found!");
+      return $response;
+    }
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $url."/api/show/$showid/seo",
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $resp = json_decode(curl_exec($curl));
+    curl_close($curl);
+
+    //$response = $response->withJson($resp->name);
+    $name = $resp->name;
+    $year = $resp->year;
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $ws."/show/search-shows-json",
+        CURLOPT_POST => 1,
+        CURLOPT_POSTFIELDS => "term=".$name,
+        CURLOPT_USERAGENT => 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/59.0.3053.3 Safari/537.36'
+    ));
+    $r = json_decode(curl_exec($curl));
+    curl_close($curl);
+
+    $seourl = "";
+
+    foreach($r as $sh) {
+      if(strpos(strtolower($sh->value), strtolower($name)) !== false) {
+        if(strpos(strtolower($sh->label), $year) !== false) {
+          $seourl = $sh->seo_url;
+          break;
+        }
+      }
+    }
+
+    $nws = $ws."/episode/".$seourl."_s".$season.'_e'.$episode.".html";
+
+    $html = new DOMDocument();
+
+    $curl = curl_init();
+    curl_setopt_array($curl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_URL => $nws
+    ));
+    curl_setopt($curl ,CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2798.0 Safari/537.36');
+    $wsr = curl_exec($curl);
+    curl_close($curl);
+    unset($curl);
+
+    $html->loadHTML($wsr);
+    $finder = new DomXPath($html);
+    $links = [];
+    $eplinks = [];
+
+    $nodes = $finder->query("//*[contains(@title, '".$link->searchlink."')]");
+    foreach($nodes as $node) {
+      $bsf = $node->getAttribute("href");
+				$bsfs = explode("?r=", $bsf);
+				$bsf = $bsfs[1];
+
+				$bsf = base64_decode($bsf);
+
+				$links[] = $bsf;
+    }
+
+    $mh = curl_multi_init();
+	  $cnodes = array();
+		$j = 0;
+    $llk = "";
+		foreach($links as $lk)
+		{
+			$lks = explode($link->explodelink, $lk);
+			$lk = $lks[0].$link->explodelink.$link->embedlink.$lks[1].$link->embedsize;
+			//echo $lk."<br>";
+      $llk = $lk;
+      break;
+		}
+
+    if($link->playerembed == true) {
+      $vl = ["link"=>$llk, "playerembed"=>$link->playerembed];
+      $response = $response->withJson($vl);
+      return $response;
+    }
+
+    $cl = curl_init();
+    // Set some options - we are passing in a useragent too here
+    curl_setopt_array($cl, array(
+        CURLOPT_RETURNTRANSFER => 1,
+        CURLOPT_HEADER => 0,
+        CURLOPT_URL => $llk
+    ));
+    curl_setopt($cl ,CURLOPT_USERAGENT,'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/54.0.2798.0 Safari/537.36');
+    $llkr = curl_exec($cl);
+    curl_close($cl);
+
+    $html = new DOMDocument();
+    $html->loadHTML($llkr);
+		$finder = new DomXPath($html);
+		$nodes = $finder->query($link->finderquery);
+
+    foreach($nodes as $node)
+		{
+      //$eplinks[] = "node".$node;
+			$code = $node->nodeValue;
+
+      $vlsi = 1;
+      $vls = explode($link->firstexplode, $code);
+      foreach($link->explodes as $exp) {
+        $vls = explode($exp, $vls[$vlsi]);
+        if($vlsi == 1)
+          $vlsi = 0;
+        else
+          $vlsi = 1;
+      }
+
+			$vl = $vls[0];
+			//echo "<br>Link: ".$vls[0];
+			if(strpos($vl, ".mp4") !== false){
+				$vls = explode('.mp4"', $vl);
+				$vl = $vls[0].".mp4";
+			}
+			if(strpos($vl, ".flv") !== false){
+				$vls = explode('.flv"', $vl);
+				$vl = $vls[0].".flv";
+			}
+
+			$eplinks[] = $vl;
+		}
+
+    $vl = ["link"=>$eplinks[0], "playerembed"=>$link->playerembed];
+    $response = $response->withJson($vl);
+    return $response;
+
   });
 
   $app->run();

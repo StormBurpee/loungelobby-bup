@@ -30,7 +30,12 @@
         <ng-container *ngFor="let episode of season.episodes">
           <div fxFlex="25%" fxFlex.lt-md="33%" class="show-episode-container" *ngIf="episode.showep == true">
             <md-card>
-              <img md-card-image src="{{episodes.img_path}}{{episode.still_path}}">
+              <div class="show-image-container">
+                <img md-card-image src="{{episodes.img_path}}{{episode.still_path}}">
+                <div class="watchedshow" *ngIf="episode.watched">
+                  <md-icon class="watched">done</md-icon>
+                </div>
+              </div>
               <md-card-content class="show-episode-info">
                 <h4>Episode {{episode.episode_number}}</h4>
                 <span>{{episode.name}}</span>

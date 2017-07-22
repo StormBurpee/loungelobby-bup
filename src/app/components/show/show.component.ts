@@ -17,13 +17,14 @@ import { MdButtonModule, MdCardModule, MdProgressSpinnerModule } from '@angular/
 })
 export class ShowComponent implements OnInit {
 
-  private showId;
-  private show: Show;
-  private myShow: boolean;
-  private errorMessage: string;
-  private loggedIn: boolean;
-  private episodes: Episodes;
-  private today;
+  showId;
+  show: Show;
+  myShow: boolean;
+  errorMessage: string;
+  loggedIn: boolean;
+  episodes: Episodes;
+  today;
+  watchedShows;
 
   constructor( private showService: ShowService, private userService: UserService, private route:ActivatedRoute ) { }
 
@@ -55,8 +56,21 @@ export class ShowComponent implements OnInit {
     this.userService.isLoggedIn().subscribe(
       loggedIn => this.loggedIn = loggedIn.loggedin,
       error => this.errorMessage = <any>error,
-      () => this.isMyShow()
+      () => this.amLoggedIn()
     );
+  }
+
+  amLoggedIn() {
+    this.isMyShow();
+  }
+
+  getWatched() {
+    if(this.loggedIn) {
+      this.showService.getWatched(this.showId).subscribe(
+        myShow => this.watchedShows = myShow,
+        error => this.errorMessage = <any>error
+      );
+    }
   }
 
   isMyShow() {
