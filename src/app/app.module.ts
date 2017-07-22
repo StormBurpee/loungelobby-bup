@@ -31,6 +31,8 @@ import { VgOverlayPlayModule} from 'videogular2/overlay-play';
 import { VgBufferingModule} from 'videogular2/buffering';
 import { SearchComponent } from './components/search/search.component';
 
+import { AdsenseModule } from 'ng2-adsense';
+
 const appRoutes: Routes = [
   { path: "", component: IndexComponent },
   { path: "login", component: LoginComponent },
@@ -71,7 +73,11 @@ const appRoutes: Routes = [
     RouterModule.forRoot(
       appRoutes,
       { enableTracing: true }
-    )
+    ),
+    AdsenseModule.forRoot({
+      adClient: 'ca-pub-6794588189560732',
+      adSlot: 5102778807
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]
