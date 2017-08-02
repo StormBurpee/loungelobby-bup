@@ -10,7 +10,8 @@
   $config['displayErrorDetails'] = true;
   $config['addContentLengthHeader'] = false;
 
-  $config['db']['host'] = "35.188.192.143";
+  #$config['db']['host'] = "35.188.192.143";
+  $config['db']['host'] = "127.0.0.1";
   $config['db']['user'] = 'LoungeLobby';
   $config['db']['pass'] = "Harry13.";
   $config['db']['dbname'] = 'loungelobby';
@@ -149,7 +150,7 @@
 
   $container = $app->getContainer();
   $container['ws'] = "http://mywatchseries.to";
-  $container['url'] = "http://theloungelobby.com";
+  $container['url'] = "http://loungelobby.com";
   $container['img'] = $tmdbImage;
   $container['mysqli'] = new mysqli($config['db']['host'], $config['db']['user'], $config['db']['pass'], $config['db']['dbname']);
   $container['vl'] = $videolinks;
